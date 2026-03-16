@@ -23,7 +23,7 @@ namespace CSRankings {
     function getRegionIcon(region: string): string {
         if (regionGlobeIcons[region]) {
             const iconFile = regionGlobeIcons[region];
-            return `<img src="/flags/${iconFile}.png" alt="${region}" class="region-globe-img">`;
+            return `<img src="flags/${iconFile}.png" alt="${region}" class="region-globe-img">`;
         }
         return '';
     }
@@ -69,7 +69,7 @@ namespace CSRankings {
                 } else {
                     // Country with flag
                     optionsHTML += `<div class="region-option ${selected}" data-value="${value}">
-                        <img src="/flags/${value}.png" alt="${value}">
+                        <img src="flags/${value}.png" alt="${value}">
                         <span>${text}</span>
                     </div>`;
                 }
