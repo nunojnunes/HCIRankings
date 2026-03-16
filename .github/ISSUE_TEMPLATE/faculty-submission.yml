@@ -1,5 +1,5 @@
 name: Faculty Submission
-description: Add a faculty member to CSRankings (via self-service form)
+description: Add a faculty member to HCIRankings
 title: "Add [name] ([institution])"
 labels: ["submission"]
 body:
@@ -7,8 +7,8 @@ body:
     attributes:
       value: |
         ## Faculty Submission
-        This issue was created via the [CSRankings submission form](/submit/).
-        An automated workflow will validate and create a PR if everything checks out.
+        Use this form to request adding a faculty member to HCIRankings.
+        A maintainer will validate and create a PR if everything checks out.
 
   - type: input
     id: name
@@ -23,7 +23,7 @@ body:
     id: institution
     attributes:
       label: Institution
-      description: Must already exist in CSRankings
+      description: Must already exist in institutions.csv
       placeholder: "MIT"
     validations:
       required: true
