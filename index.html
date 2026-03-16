@@ -1,0 +1,750 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!-- placeholder: June 2023 checkpoint -->
+<html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQ4C08LNW4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-KQ4C08LNW4');
+    </script>
+   
+    <!--    <link href='https://fonts.googleapis.com/css?family=News+Cycle:400,700' rel='stylesheet' type='text/css'> -->
+    <!--    <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="preload" as="style" href="css/csrankings.css">
+    <link rel="preload" as="style" href="css/csrankings-extra.css">
+    <link rel="preload" as="style" href="css/nouislider.min.css">
+    <link rel="preload" as="style" href="css/walkthrough.css">
+    <link rel="preload" as="style" href="css/csrankings-tour.css">
+
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://dblp.org">
+
+
+    <link rel="preload" as="script" href="js/he-1.2.0.js" type="text/javascript">
+<!--    <link rel="preload" as="script" href="js/d3.min.js"> -->
+<!--    <link rel="preload" as="script" href="js/d3pie.min.js" type="text/javascript"> -->
+    <link rel="preload" as="script" href="js/papaparse.min.js" type="text/javascript">
+<!--    <link rel="preload" as="script" href="js/pako.min.js" type="text/javascript"> -->
+<!--    <link rel="preload" as="script" src="js/bootstrap.min.js" type="text/javascript"></script> -->
+    <link rel="preload" as="script" href="js/navigo.min.js">
+    <link rel="preload" as="script" href="js/nouislider.min.js">
+    <link rel="preload" as="script" href="js/walkthrough.min.js">
+
+
+    <meta name="description" content="HCI Rankings - Metrics-based ranking of top Human-Computer Interaction research institutions">
+    <meta name="keywords" content="HCI rankings, human-computer interaction rankings, best HCI programs, top HCI universities, CHI, UIST, CSCW, HCI research">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="citation_title" content="HCIRankings">
+    <meta name="citation_fulltext_html_url" content="https://hcirankings.org">
+    <meta name="citation_publisher" content="">
+    <meta name="citation_fulltext_world_readable" content="">
+    
+    <link rel="stylesheet" href="css/csrankings.css">
+    <link rel="stylesheet" href="css/csrankings-extra.css">
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/walkthrough.css">
+    <link rel="stylesheet" href="css/csrankings-tour.css">
+
+    <title>HCIRankings: Human-Computer Interaction Rankings</title>
+
+    <!--    <link rel="stylesheet" href="css/bootstrap-theme.min.css"> -->
+
+    <!-- <script async src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.4/d3.min.js"></script>-->
+    <style type="text/css">
+      @media (max-width: 768px) {
+      .row.switch-xs {
+      transform: rotate(180deg);
+      direction: rtl;
+      }
+      
+      @media (max-width: 768px) {
+      .col-centered {
+      display:inline-block;
+      float: none;
+      text-align: left;
+      margin-right:-4px;
+      }
+      .row-centered {
+      text-align: center;
+      }
+      }
+      
+      .row.switch-xs > [class^="col-"] {
+      transform: rotate(-180deg);
+      direction: ltr;
+      }
+      }
+      
+      body {
+      font-family: Helvetica, Arial;
+      }
+
+      table td {
+      vertical-align: top;
+      }
+
+      .table-fit {
+      white-space: nowrap;
+      width: 5%;
+      }
+      
+      td {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      }
+
+      a {
+      color : blue ;
+      }
+
+      .csr-barchart {
+	  display: none;
+      }
+      
+      .area_group_selector { cursor : pointer; }
+
+      .hovertip { cursor : pointer;
+		  color : blue }
+      
+      .bluefont  {
+	  color : blue;
+      }
+      
+      input { cursor : pointer; }
+      
+      /* latin-ext */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 400;
+      src: local('News Cycle'), local('NewsCycle'), url(https://fonts.gstatic.com/s/newscycle/v13/d03oiboZGiaNuMDvH253CgsYbbCjybiHxArTLjt7FRU.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 400;
+      src: local('News Cycle'), local('NewsCycle'), url(https://fonts.gstatic.com/s/newscycle/v13/9Xe8dq6pQDsPyVH2D3tMQgzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+      }
+      /* latin-ext */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 700;
+      src: local('News Cycle Bold'), local('NewsCycle-Bold'), url(https://fonts.gstatic.com/s/newscycle/v13/G28Ny31cr5orMqEQy6ljtzrEaqfC9P2pvLXik1Kbr9s.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+      font-family: 'News Cycle';
+      font-style: normal;
+      font-weight: 700;
+      src: local('News Cycle Bold'), local('NewsCycle-Bold'), url(https://fonts.gstatic.com/s/newscycle/v13/G28Ny31cr5orMqEQy6ljt2aVI6zN22yiurzcBKxPjFE.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+      }
+
+      .note {
+      font-weight: bold;
+      }
+
+      .areaname {
+      font-variant:small-caps;
+      font-size: -1;
+      }
+
+      .barchart {
+      font-size: +1;
+      }
+    </style>
+    <script defer>
+      var trackOutboundLink = function(url, new_window) {
+      /* Setting a default value for backward compatibility */
+      if (new_window === undefined) {
+      new_window = false;
+      }
+      /* Track with GA4 gtag if available */
+      if (typeof gtag !== 'undefined') {
+      gtag('event', 'click', {
+        'event_category': 'outbound',
+        'event_label': url,
+        'transport_type': 'beacon'
+      });
+      }
+      if (new_window){
+      window.open(url);
+      } else {
+      document.location = url;
+      }
+      }
+    </script>
+
+    <script src="js/he-1.2.0.js" type="text/javascript"></script>
+<!--    <script src="js/d3.min.js"></script> -->
+<!--    <script src="js/d3pie.min.js" type="text/javascript"></script> -->
+    <script defer src="js/vega-5.20.2.min.js" type="text/javascript"></script>
+    <script defer src="js/vega-lite-5.1.1.min.js" type="text/javascript"></script>
+    <script defer src="js/vega-embed-6.18.2.min.js" type="text/javascript"></script>
+    <script defer src="js/papaparse.min.js" type="text/javascript"></script>
+<!--    <script async src="js/pako.min.js" type="text/javascript"></script> -->
+    <script defer src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script defer src="js/navigo.min.js"></script>
+    <script defer src="js/nouislider.min.js"></script>
+    <script defer src="js/walkthrough.min.js"></script>
+    <!-- <script defer src="csrankings.min.js" type="text/javascript"></script> -->
+<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8224607094172722"
+	    crossorigin="anonymous"></script> -->
+    <script src="csrankings.js" type="text/javascript" defer></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <form id="rankform" name="rankform" action="" method="get" target="_blank">
+	<div class="page-header">
+
+          <h1>HCIRankings: Human-Computer Interaction Rankings</h1>
+
+	  <div class="panel panel-info intro-panel">
+	    <div class="panel-heading">
+	      <p style="margin-bottom:0;">
+		HCIRankings is a metrics-based ranking of top HCI research institutions based on faculty publications at selective HCI venues.
+	      </p>
+	      <!-- Hidden elements for chart type (used by JS) -->
+	      <span class="custom-chart-dropdown" id="custom-chart-dropdown" style="display:none;" title="Choose chart visualization style"><span class="chart-selected" id="chart-selected"><img src="png/barchart.png" alt="bar" class="chart-icon" id="chart-selected-icon"><span id="chart-selected-text">bar chart</span><span class="chart-arrow">&#9662;</span></span><span class="chart-options" id="chart-options"><span class="chart-option selected" data-value="bar"><img src="png/barchart.png" alt="bar"><span>bar chart</span></span><span class="chart-option" data-value="pie"><img src="png/piechart.png" alt="pie"><span>pie chart</span></span></span></span>
+	      <select id="charttype" style="display:none;" title="Choose chart visualization style">
+		<option value="bar">bar chart</option>
+		<option value="pie">pie chart</option>
+	      </select>
+	    </div>
+	  </div>
+
+	  <div class="rank-controls-sticky">
+	    <div class="panel panel-info rank-controls-panel">
+	      <div class="panel-heading">
+	      <div class="rank-controls-flex" id="rank-controls-row">
+		<div class="rank-controls-main">
+		  <div class="custom-region-dropdown" id="custom-region-dropdown" title="Filter by country, region, or continent">
+		    <div class="region-selected" id="region-selected">
+		      <img src="/flags/us.png" alt="" class="region-flag" id="region-selected-flag">
+		      <span id="region-selected-text">USA</span>
+		      <span class="region-arrow">&#9662;</span>
+		    </div>
+		    <div class="region-options" id="region-options"></div>
+		  </div>
+		  <select id="regions" name="regions" style="display:none;" title="Filter by country, region, or continent">
+		    <optgroup label="by country/region">
+		      <option value="ar">Argentina</option>
+                      <option value="au">Australia</option>
+                      <option value="at">Austria</option>
+		      <option value="bd">Bangladesh</option>
+		      <option value="be">Belgium</option>
+		      <option value="br">Brazil</option>
+		      <option value="bg">Bulgaria</option>
+                      <option value="ca">Canada</option>
+		      <option value="cl">Chile</option>
+		      <option value="cn">China</option>
+		      <option value="co">Colombia</option>
+		      <option value="cy">Cyprus</option>
+		      <option value="cz">Czech Republic</option>
+		      <option value="dk">Denmark</option>
+		      <option value="eg">Egypt</option>
+		      <option value="ee">Estonia</option>
+		      <option value="fi">Finland</option>
+		      <option value="fr">France</option>
+		      <option value="de">Germany</option>
+		      <option value="gr">Greece</option>
+		      <option value="hk">Hong Kong</option>
+		      <option value="hu">Hungary</option>
+		      <option value="in">India</option>
+		      <option value="id">Indonesia</option>
+		      <option value="ir">Iran</option>
+		      <option value="ie">Ireland</option>
+		      <option value="il">Israel</option>
+		      <option value="it">Italy</option>
+		      <option value="jp">Japan</option>
+		      <option value="jo">Jordan</option>
+		      <option value="lv">Latvia</option>
+		      <option value="lb">Lebanon</option>
+		      <option value="lu">Luxembourg</option>
+		      <option value="mo">Macao</option>
+		      <option value="my">Malaysia</option>
+		      <option value="mt">Malta</option>
+		      <option value="ma">Morocco</option>
+		      <option value="nl">Netherlands</option>
+		      <option value="nz">New Zealand</option>
+		      <option value="no">Norway</option>
+		      <option value="pk">Pakistan</option>
+		      <option value="ph">Philippines</option>
+		      <option value="pl">Poland</option>
+		      <option value="pt">Portugal</option>
+		      <option value="qa">Qatar</option>
+		      <option value="ro">Romania</option>
+		      <option value="ru">Russia</option>
+		      <option value="sa">Saudi Arabia</option>
+		      <option value="sg">Singapore</option>
+		      <option value="sk">Slovakia</option>
+		      <option value="za">South Africa</option>
+		      <option value="kr">South Korea</option>
+		      <option value="es">Spain</option>
+		      <option value="lk">Sri Lanka</option>
+		      <option value="se">Sweden</option>"
+		      <option value="ch">Switzerland</option>
+		      <option value="th">Thailand</option>
+		      <option value="tw">Taiwan</option>
+		      <option value="tr">Turkey</option>
+		      <option value="ae">United Arab Emirates</option>
+		      <option value="gb">United Kingdom</option>
+		      <option value="vn">Vietnam</option>
+		      <option value="us" selected="selected">USA</option>
+		    </optgroup>
+		    <optgroup label="by continent">
+		      <option value="northamerica">North America</option>
+		      <option value="southamerica">South America</option>
+		      <option value="africa">Africa</option>
+		      <option value="asia">Asia</option>
+		      <option value="australasia">Australasia</option>
+		      <option value="europe">Europe</option>
+		      <option value="world">the world</option>
+		    </optgroup>
+		  </select>
+		  <span class="year-slider-container" title="Filter by publication year range">
+		    <span id="year-display-from" class="year-display" title="Start year"></span>
+		    <div id="year-slider" class="year-slider" title="Drag handles to select year range"></div>
+		    <span id="year-display-to" class="year-display" title="End year"></span>
+		  </span>
+		  <!-- Hidden selects for URL compatibility (populated dynamically by year-slider.ts) -->
+		  <select id="fromyear" name="fromyear" style="display:none;"></select>
+		  <select id="toyear" name="toyear" style="display:none;"></select>
+		  <span class="area-indicators" title="Area selection status">
+		    <label class="all-toggle" title="Toggle all areas">
+		      <input type="checkbox" class="all-toggle-checkbox" checked>
+		      <span class="all-toggle-slider"></span>
+		      <span class="all-toggle-label">All</span>
+		    </label>
+		    <span class="area-indicator ai-indicator" data-area="ai" title="Core HCI areas: Click to toggle">Core HCI</span>
+		    <span class="area-indicator systems-indicator" data-area="systems" title="Specialized HCI areas: Click to toggle">Specialized</span>
+		    <span class="area-indicator theory-indicator" data-area="theory" title="HCI journals: Click to toggle">Journals</span>
+		  </span>
+		</div>
+	      </div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <div class="row switch-xs row-centered">
+
+	    <!-- start area selection -->
+
+	    <div id="area-selection-panel" class="col-centered col-xs-6 col-sm-push-6 col-sm-6 col-md-6 col-lg-6 text-center">
+	      <div class="table-responsive">
+		<table class="table-fit table table-sm table-striped">
+
+		  <thead>
+		    <tr>
+		      <th colspan="2">
+			<span class="all-areas-header">
+			  <label class="all-toggle all-toggle-sidebar" title="Toggle all areas">
+			    <input type="checkbox" class="all-toggle-checkbox" checked>
+			    <span class="all-toggle-slider"></span>
+			    <span class="all-toggle-label">All Areas</span>
+			  </label>
+			</span>
+		      </th>
+		    </tr>
+		  </thead>
+		  <thead>
+		    <tr>
+		      <th colspan="2" style="text-align: left;">
+			  <span class="area-toggle-btn ai-toggle" id="ai_toggle" data-area="ai" title="Click to toggle Core HCI areas">Core</span>
+		      </th>
+		    </tr>
+		  </thead>
+
+		  <tbody class="ai-area">
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="hci_core-widget" title="Click to show/hide conferences">&#9658;</span>
+			Core HCI
+			<div class="table-responsive" style="display:none;" id="hci_core-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <p class="text-muted" style="font-variant:small-caps;">
+				    <a href="https://sigchi.org/">acm sigchi</a>
+				  </p>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/chi/index.html">CHI</a></td>
+				      <td align="right"><input type="checkbox" name="chiconf" id="chiconf" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/cscw/index.html">CSCW</a> / <a href="https://dblp.org/db/journals/pacmhci/index.html">PACMHCI</a></td>
+				      <td align="right"><input type="checkbox" name="cscw" id="cscw" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/interact/index.html">INTERACT</a></td>
+				      <td align="right"><input type="checkbox" name="interact" id="interact" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="hci_core" id="hci_core" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="design_critical-widget" title="Click to show/hide conferences">&#9658;</span>
+			Design &amp; Critical Computing
+			<div class="table-responsive" style="display:none;" id="design_critical-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/dis/index.html">DIS</a></td>
+				      <td align="right"><input type="checkbox" name="dis" id="dis" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/cc/index.html">C&amp;C</a></td>
+				      <td align="right"><input type="checkbox" name="cc" id="cc" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/acmcompass/index.html">COMPASS</a></td>
+				      <td align="right"><input type="checkbox" name="compass" id="compass" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="design_critical" id="design_critical" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="technology-widget" title="Click to show/hide conferences">&#9658;</span>
+			Technology &amp; Engineering
+			<div class="table-responsive" style="display:none;" id="technology-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/uist/index.html">UIST</a></td>
+				      <td align="right"><input type="checkbox" name="uist" id="uist" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/eics/index.html">EICS</a></td>
+				      <td align="right"><input type="checkbox" name="eics" id="eics" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/tei/index.html">TEI</a></td>
+				      <td align="right"><input type="checkbox" name="tei" id="tei" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/iss/index.html">ISS</a> / <a href="https://dblp.org/db/conf/tabletop/index.html">ITS</a></td>
+				      <td align="right"><input type="checkbox" name="iss" id="iss" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/sui/index.html">SUI</a></td>
+				      <td align="right"><input type="checkbox" name="sui" id="sui" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/icmi/index.html">ICMI</a></td>
+				      <td align="right"><input type="checkbox" name="icmi" id="icmi" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="technology" id="technology" value="1.0"/>
+		      </td>
+		    </tr>
+
+		  </tbody>
+
+		  <thead>
+		    <tr>
+		      <th colspan="2" style="text-align: left;">
+			  <span class="area-toggle-btn systems-toggle" id="systems_toggle" data-area="systems" title="Click to toggle Specialized HCI areas">Specialized</span>
+		      </th>
+		    </tr>
+		  </thead>
+
+		  <tbody class="systems-area">
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="ubi_mobile-widget" title="Click to show/hide conferences">&#9658;</span>
+			Ubiquitous &amp; Mobile
+			<div class="table-responsive" style="display:none;" id="ubi_mobile-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/huc/index.html">UbiComp</a> / <a href="https://dblp.org/db/journals/imwut/index.html">IMWUT</a></td>
+				      <td align="right"><input type="checkbox" name="ubicomp" id="ubicomp" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/mhci/index.html">MobileHCI</a></td>
+				      <td align="right"><input type="checkbox" name="mobilehci" id="mobilehci" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/etra/index.html">ETRA</a></td>
+				      <td align="right"><input type="checkbox" name="etra" id="etra" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="ubi_mobile" id="ubi_mobile" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="immersive_vis-widget" title="Click to show/hide conferences">&#9658;</span>
+			Immersive &amp; Visualization
+			<div class="table-responsive" style="display:none;" id="immersive_vis-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/vrst/index.html">VRST</a></td>
+				      <td align="right"><input type="checkbox" name="vrst" id="vrst" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/vr/index.html">IEEE VR</a></td>
+				      <td align="right"><input type="checkbox" name="vr" id="vr" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/visualization/index.html">IEEE VIS</a></td>
+				      <td align="right"><input type="checkbox" name="vis" id="vis" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/ismar/index.html">ISMAR</a></td>
+				      <td align="right"><input type="checkbox" name="ismar" id="ismar" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="immersive_vis" id="immersive_vis" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="intelligent-widget" title="Click to show/hide conferences">&#9658;</span>
+			Intelligent &amp; Adaptive Systems
+			<div class="table-responsive" style="display:none;" id="intelligent-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/iui/index.html">IUI</a></td>
+				      <td align="right"><input type="checkbox" name="iui" id="iui" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/hri/index.html">HRI</a></td>
+				      <td align="right"><input type="checkbox" name="hri" id="hri" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/recsys/index.html">RecSys</a></td>
+				      <td align="right"><input type="checkbox" name="recsys" id="recsys" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/um/index.html">UMAP</a></td>
+				      <td align="right"><input type="checkbox" name="umap" id="umap" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="intelligent" id="intelligent" value="1.0"/>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="accessibility-widget" title="Click to show/hide conferences">&#9658;</span>
+			Accessibility &amp; Social Impact
+			<div class="table-responsive" style="display:none;" id="accessibility-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <p class="text-muted" style="font-variant:small-caps;">
+				    <a href="https://www.sigaccess.org/">acm sigaccess</a>
+				  </p>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/assets/index.html">ASSETS</a></td>
+				      <td align="right"><input type="checkbox" name="assets" id="assets" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/conf/idc/index.html">IDC</a></td>
+				      <td align="right"><input type="checkbox" name="idc" id="idc" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="accessibility" id="accessibility" value="1.0"/>
+		      </td>
+		    </tr>
+
+		  </tbody>
+
+		  <thead>
+		    <tr>
+		      <th colspan="2" style="text-align: left;">
+			  <span class="area-toggle-btn theory-toggle" id="theory_toggle" data-area="theory" title="Click to toggle HCI Journals">Journals</span>
+		      </th>
+		    </tr>
+		  </thead>
+
+		  <tbody class="theory-area">
+
+		    <tr>
+		      <td>
+			<span class="hovertip" id="journals-widget" title="Click to show/hide journals">&#9658;</span>
+			Journals
+			<div class="table-responsive" style="display:none;" id="journals-conferences">
+			  <table class="table-sm" style="width:100%">
+			    <tbody>
+			      <tr style="width:100%">
+				<td>
+				  <table class="table-sm" style="width:100%;">
+				    <tr>
+				      <td><a href="https://dblp.org/db/journals/tochi/index.html">TOCHI</a></td>
+				      <td align="right"><input type="checkbox" name="tochi" id="tochi" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/journals/ijhcs/index.html">IJHCS</a></td>
+				      <td align="right"><input type="checkbox" name="ijhcs" id="ijhcs" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/journals/bit/index.html">Behaviour &amp; Info. Tech.</a></td>
+				      <td align="right"><input type="checkbox" name="bit" id="bit" value="1.0"/></td>
+				    </tr>
+				    <tr>
+				      <td><a href="https://dblp.org/db/journals/ijhci/index.html">Int. J. HCI</a></td>
+				      <td align="right"><input type="checkbox" name="ijhci" id="ijhci" value="1.0"/></td>
+				    </tr>
+				  </table>
+				</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+		      </td>
+		      <td>
+			<input type="checkbox" name="journals" id="journals" value="1.0"/>
+		      </td>
+		    </tr>
+
+		  </tbody>
+
+		</table>
+	      </div>
+	    </div>
+
+	    <!-- end area selection -->
+
+	    <!-- start ranking window -->
+
+	    <div id="ranking-window" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-center">
+	      <div id="success">
+		<!-- Skeleton loading placeholder -->
+		<div id="skeleton-loading" class="skeleton-loading">
+		  <div class="skeleton-header">
+		    <div class="skeleton-header-item"></div>
+		    <div class="skeleton-header-item"></div>
+		    <div class="skeleton-header-item"></div>
+		  </div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name"></div><div class="skeleton-score"></div></div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name" style="max-width:200px"></div><div class="skeleton-score"></div></div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name" style="max-width:280px"></div><div class="skeleton-score"></div></div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name" style="max-width:220px"></div><div class="skeleton-score"></div></div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name" style="max-width:260px"></div><div class="skeleton-score"></div></div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name" style="max-width:190px"></div><div class="skeleton-score"></div></div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name" style="max-width:240px"></div><div class="skeleton-score"></div></div>
+		  <div class="skeleton-row"><div class="skeleton-rank"></div><div class="skeleton-name" style="max-width:210px"></div><div class="skeleton-score"></div></div>
+		</div>
+	      </div>
+	    </div>
+	    
+	    <!-- end ranking window -->
+
+	    
+	  </div>
+	  
+	  <div class="page-footer">
+	    <p>
+	      Publication data from <a target="_blank" href="https://dblp.org/">DBLP</a> ·
+	      <a href="submit/"><b>Add/Update Faculty</b></a> ·
+	      <a target="_blank" href="https://github.com/nunojnunes/HCIRankings">GitHub</a>
+	    </p>
+	    <p>
+	      Based on <a href="https://csrankings.org/">CSRankings</a> by <a href="https://emeryberger.com/">Emery Berger</a>
+	    </p>
+	    <p>
+	      <a href="faq.html"><b>FAQ</b></a>
+	    </p>
+	    <p class="text-muted" style="font-size: 0.85em;">
+	      <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+	    </p>
+	  </div>
+	</div>
+      </form>
+    </div>
+  </body>
+</html>
