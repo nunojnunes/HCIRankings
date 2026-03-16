@@ -3,7 +3,7 @@ HCIRankings
 
 **HCIRankings** is a metrics-based ranking of top Human-Computer Interaction (HCI) research institutions worldwide. It measures the number of publications by faculty at the most selective HCI venues, providing an objective, survey-free alternative to traditional academic rankings.
 
-Live site: [hcirankings.org](https://hcirankings.org)
+Live site: [nunojnunes.github.io/HCIRankings](https://nunojnunes.github.io/HCIRankings)
 
 ---
 

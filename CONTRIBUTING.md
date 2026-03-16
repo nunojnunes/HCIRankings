@@ -1,135 +1,85 @@
-# Contributing to CSrankings
+# Contributing to HCIRankings
 
-> **Adding or updating a single faculty member?** Use our [self-service form](https://csrankings.org/submit/) instead — it's faster and validates your entry automatically!
+> **Adding or updating a single faculty member?** [Open an issue](https://github.com/nunojnunes/HCIRankings/issues/new/choose) using the faculty submission template — it's the fastest way to get your entry processed.
 
-Thanks for contributing to CSrankings! Please read and indicate you agree with **all** these guidelines to getting your pull request accepted. Note that pull requests may take some time to get merged (please don't contact us for at least three months for updates, unless you are a sponsor - see below).
-
-**If you find CSrankings useful, [please consider becoming a sponsor](https://github.com/sponsors/csrankings).**
-
-**NOTE:** IF YOU DO NOT FOLLOW THE STEPS BELOW, YOUR PULL REQUEST WILL BE SUMMARILY REJECTED.
-When you open a PR, you will see a checklist. You must check **all** the boxes or your PR will be rejected.
+Thanks for contributing to HCIRankings! Please read these guidelines carefully before submitting a pull request.
 
 ---
 
 ## The Basics
 
-<a id="non-anonymous"></a>
 ### Non-anonymous accounts
 
-All pull requests and issues must come from non-anonymous accounts. Make sure your GitHub profile contains your full name. Anonymous submissions are rejected to ensure accountability.
+All pull requests and issues must come from non-anonymous accounts. Make sure your GitHub profile contains your full name.
 
-<a id="pr-title"></a>
 ### Descriptive PR title
 
-Use a reasonable title that explains what the PR corresponds to (as in, not "Update csrankings-x.csv"). Generic titles make the PR queue difficult to manage.
+Use a title that clearly describes what your PR does (e.g. "Add HCI faculty at Univ. of Example"). Generic titles like "Update csrankings-x.csv" make the queue difficult to manage.
 
-<a id="one-pr"></a>
 ### One PR per institution
 
-Combine multiple updates to a single institution into a **single PR.** Only submit one pull request per institution. Multiple PRs for the same institution create merge conflicts and slow down processing.
+Combine all updates for a single institution into **one PR**. Multiple PRs for the same institution create merge conflicts.
 
-<a id="allowed-files"></a>
 ### Allowed files
 
-Do not modify any files except `csrankings-[a-z].csv` or (if needed) `old/industry.csv` (see below). Other files are auto-generated or require maintainer access.
+Only modify `csrankings-[a-z].csv` (or `old/industry.csv` if needed). All other files are auto-generated or require maintainer access.
 
-<a id="no-excel"></a>
 ### Do not use Excel
 
-Do not use Excel to edit any .csv files; Excel incorrectly tries to convert some Google Scholar entries to formulas, corrupting the database. Use the GitHub user interface or a text editor like emacs or NotePad instead.
+Excel corrupts Google Scholar IDs by converting them to formulas. Use the GitHub web interface or a plain-text editor instead.
 
-<a id="alphabetical"></a>
 ### Alphabetical order
 
-Insert new faculty **in alphabetical order** (not at the end) in the appropriate `csrankings-[a-z].csv` files. **Do not modify `csrankings.csv`, which is auto-generated.**
+Insert new entries **in alphabetical order by last name** in the correct `csrankings-[a-z].csv` file. Do not modify `csrankings.csv` — it is auto-generated.
 
-<a id="csv-format"></a>
-### CSV formatting
+### CSV format
 
-Check to make sure that you have no spaces after commas, or any missing fields. Each line must have exactly four comma-separated values.
+Each line must have exactly four comma-separated fields with **no spaces after commas** and no missing fields:
 
-<a id="homepage"></a>
-### Homepage
-
-Check to make sure the home page is correct. Our automated validation fetches the homepage to verify the faculty member's name and affiliation appear on it.
-
-<a id="scholar-id"></a>
-### Google Scholar ID
-
-Make sure the Google Scholar IDs are just the alphanumeric identifier (not a URL or with `&hl=en`). For example, if the Scholar URL is `https://scholar.google.com/citations?user=abcd1234ABCD&hl=en`, use only `abcd1234ABCD`. Full URLs or suffixes break the Scholar lookup.
-
-<a id="dblp-name"></a>
-### DBLP name
-
-Check to make sure the name corresponds to the DBLP entry (look it up at http://dblp.org). Publications are matched by exact DBLP name—mismatches result in zero papers being counted.
-
-<a id="non-cs-dept"></a>
-### Non-CS department faculty
-
-If a faculty member is not in a CS department or similar, include a comment explaining how they meet the inclusion criteria (see below).
+```
+name,affiliation,homepage,scholarid
+```
 
 ---
 
 ## Inclusion criteria
 
-<a id="inclusion-criteria"></a>
+HCIRankings tracks full-time, tenure-track faculty who:
 
-Make sure that any faculty you add meet the inclusion criteria. Eligible faculty include only full-time, tenure-track research faculty members on a given campus who can *solely* advise PhD students in Computer Science. Faculty not in a CS department or similar who can advise PhD students in CS can be included regardless of their home department. **Provide justification, pointing to specific home pages showing how faculty not in a CS department meet the inclusion criteria, e.g. showing a courtesy appointment in CS.** Faculty must also have a 75%+ time appointment (check `old/industry.csv` for faculty who are now more than 25% in industry).
+- Can **solely** advise PhD students (co-advising only does not qualify)
+- Have a 75%+ academic appointment (see `old/industry.csv` for part-industry faculty)
+- Are at an institution listed in `institutions.csv`
 
-<a id="tenure-track"></a>
-### Full-time tenure-track
-
-Adjuncts, visiting faculty, research scientists, and part-time appointments are excluded.
-
-<a id="sole-advising"></a>
-### Sole PhD advising
-
-Faculty must be able to *solely* advise PhD students for a degree in Computer Science. Faculty who can only co-advise do not meet the inclusion criteria.
+Faculty outside a CS/informatics department may be included if they hold a courtesy appointment in CS or are members of a CS graduate program — include a link to evidence in your PR.
 
 ---
 
-## Updating an affiliation or home page
+## Data accuracy
 
-<a id="updating"></a>
+### Name
 
-Update affiliations, home pages, and Google Scholar entries by modifying `csrankings-[a-z].csv`. For the Google Scholar entry, just use the alphanumeric identifier in the middle of the URL. If none is there, put `NOSCHOLARPAGE`.
+The name must match the [DBLP](https://dblp.org) entry **exactly**, including disambiguation suffixes like `0001`. Mismatches result in zero papers being counted.
 
----
+### Homepage
 
-## Adding one or more faculty members (including an entire department)
+The homepage URL must work and show the faculty member's name and current affiliation. Our automated validation fetches the page to verify this.
 
-<a id="new-institution"></a>
-### New institutions
+### Google Scholar ID
 
-If you are adding an institution, do not submit a pull request. You must first open an issue entitled "Add (NAME OF UNIVERSITY) to the list of institutions" and I will add the institution. Once that has been completed, submit a single PR that adds *all* of the faculty in the CS department.
-
-<a id="entire-dept"></a>
-### Entire department required
-
-If the department is not yet listed in CSrankings, the entire CS faculty needs to be added (not just one faculty member). Partial departments skew rankings; the all-or-nothing policy ensures fairness.
-
-<a id="dblp-entry"></a>
-### DBLP entries
-
-Enter each faculty member's [DBLP](http://dblp.org) name, home page, and Google Scholar entry (just the alphanumeric identifier, not the whole URL) by modifying `csrankings-[a-z].csv` (**the letters correspond to the first letter of the faculty members' names**); include disambiguation suffixes like `0001` as needed. If the faculty entry is currently ambiguous, please do not include them. Send mail to the DBLP maintainers (dblp@dagstuhl.de) with a few publications by a particular faculty member; also, open an issue so that when the DBLP database is updated, that faculty member's information can be added.
-
-<a id="multiple-dblp"></a>
-### Multiple DBLP entries
-
-If DBLP has multiple entries for this person, *all of them need to be listed*. Do not update `dblp-aliases.csv`.
+Use only the alphanumeric identifier — not the full URL and not with `&hl=en`. For example, from `https://scholar.google.com/citations?user=abcd1234ABCD&hl=en`, use only `abcd1234ABCD`. If there is no Scholar page, use `NOSCHOLARPAGE`.
 
 ---
 
-## (Advanced) Quick contribution via a shallow clone
+## Adding a new institution
 
-We recommend that you use the GitHub web user interface to make changes. However, it may be more convenient to clone the repository for larger-scale changes.
+If the institution is not yet in `institutions.csv`, **open an issue first** titled "Add [Institution Name] to the list of institutions". Once the institution is added by a maintainer, submit a PR that adds **all** HCI faculty at that institution — partial departments skew rankings.
 
-However, a full clone of the CSrankings repository is almost 2GB. To contribute a change without creating a full local clone of the CSrankings repo, you can perform a _shallow clone_. To do so, follow these steps:
+---
 
-1. Fork the CSrankings repo. If you have an existing fork, but it is not up to date with the main repository, this technique may not work. If necessary, delete and re-create your fork to get it up to date. (Do **not** delete your existing fork if it has unmerged changes you want to preserve!)
+## Institution name length
 
-1. Do a shallow clone of your fork: `git clone --depth 1 https://github.com/yourusername/CSrankings`. This will only download the most recent commit, not the full git history.
-
-1. Make your changes on a branch, push them to your clone, and create a pull request on GitHub as usual.
-
-If you want to make another contribution and some time has passed, perform these steps again, creating a fresh fork and shallow clone.
+Institution names must not exceed 37 characters. Abbreviate as needed:
+- `University` → `Univ.`
+- `Institute` → `Inst.`
+- `Technology` → `Tech.`
+- `Information` → `Info.`
