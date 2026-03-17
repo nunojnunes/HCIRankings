@@ -132,9 +132,10 @@ namespace CSRankings {
                 }
             }
         }
-        // Treat empty query (e.g. initial Navigo redirect to #/index) as "all selected".
+        // Treat empty query (e.g. initial Navigo redirect to #/index) as A* default.
         if (!query || query === '') {
-            query = 'all';
+            applyDefaultRankFilter(invalidateCheckboxCache);
+            return;
         }
         // Clear everything *unless* there are subsets / below-the-fold selected.
         clearNonSubsetted(invalidateCheckboxCache);

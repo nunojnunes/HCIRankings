@@ -33378,11 +33378,6 @@ Carlos Maltzahn,Univ. of California - Santa Cruz,sigmetrics,1.0,0.33333,1997
 Carlos Maltzahn,Univ. of California - Santa Cruz,usenixatc,1.0,0.33333,1999
 Carlos Maltzahn,Univ. of California - Santa Cruz,usenixatc,1.0,0.25,2012
 Carlos Maltzahn,Univ. of California - Santa Cruz,usenixatc,1.0,0.2,2014
-Carlos Martinho,Universidade de Lisboa,aaai,1.0,0.5,2006
-Carlos Martinho,Universidade de Lisboa,chiplay,1.0,0.2,2019
-Carlos Martinho,Universidade de Lisboa,hri,1.0,0.2,2012
-Carlos Martinho,Universidade de Lisboa,hri,1.0,0.25,2013
-Carlos Martinho,Universidade de Lisboa,ijhcs,1.0,0.16667,2013
 Carlos Ordonez 0001,University of Houston,kdd,1.0,1.0,2004
 Carlos R. Rivero,Rochester Inst. of Technology,icde,1.0,0.25,2017
 Carlos R. Rivero,Rochester Inst. of Technology,iss,2.0,0.66667,2021
@@ -33390,6 +33385,11 @@ Carlos R. Rivero,Rochester Inst. of Technology,iss,1.0,0.5,2022
 Carlos R. Rivero,Rochester Inst. of Technology,www,1.0,0.33333,2021
 Carlos R. Rivero,Rochester Inst. of Technology,www,2.0,0.83333,2024
 Carlos Ribeiro,Universidade de Lisboa,ndss,1.0,0.25,2001
+Carlos Roque Martinho,Universidade de Lisboa,aaai,1.0,0.5,2006
+Carlos Roque Martinho,Universidade de Lisboa,chiplay,1.0,0.2,2019
+Carlos Roque Martinho,Universidade de Lisboa,hri,1.0,0.2,2012
+Carlos Roque Martinho,Universidade de Lisboa,hri,1.0,0.25,2013
+Carlos Roque Martinho,Universidade de Lisboa,ijhcs,1.0,0.16667,2013
 Carlos Toxtli,Clemson University,chiconf,1.0,0.33333,2018
 Carlos Toxtli,Clemson University,cscw,1.0,0.33333,2021
 Carlos Toxtli,Clemson University,cscw,1.0,0.33333,2024
@@ -85905,8 +85905,6 @@ H. Sebastian Seung,Princeton University,nips,1.0,0.25,2017
 H. Sebastian Seung,Princeton University,nips,1.0,0.5,2022
 H. Sebastian Seung,Princeton University,sc,1.0,0.33333,2016
 H. Siegfried Stiehl,University of Hamburg,eccv,1.0,0.33333,1998
-H. Sofia Pinto,Universidade de Lisboa,bit,1.0,0.25,2017
-H. Sofia Pinto,Universidade de Lisboa,ijcai,1.0,0.33333,2025
 H. T. Kung 0001,Harvard University,aaai,1.0,0.33333,2019
 H. T. Kung 0001,Harvard University,asplos,1.0,0.16667,1989
 H. T. Kung 0001,Harvard University,asplos,1.0,0.33333,2019
@@ -91827,6 +91825,8 @@ Helena M. Mentis,Drexel University,tochi,1.0,0.2,2013
 Helena M. Mentis,Drexel University,tochi,1.0,0.33333,2014
 Helena M. Mentis,Drexel University,tochi,1.0,0.5,2021
 Helena Sarmento,Universidade de Lisboa,dac,1.0,0.33333,1996
+Helena Sofia Pinto,Universidade de Lisboa,bit,1.0,0.25,2017
+Helena Sofia Pinto,Universidade de Lisboa,ijcai,1.0,0.33333,2025
 Helge J. Ritter,Bielefeld University,icra,1.0,0.33333,1997
 Helge J. Ritter,Bielefeld University,icra,1.0,0.33333,2003
 Helge J. Ritter,Bielefeld University,icra,1.0,0.33333,2007
@@ -119246,39 +119246,39 @@ Joanne M. Atlee,University of Waterloo,fse,1.0,0.33333,2017
 Joanne M. Atlee,University of Waterloo,icse,1.0,0.25,2015
 Joanne M. Atlee,University of Waterloo,issta,1.0,0.5,1993
 Joanne M. Atlee,University of Waterloo,issta,2.0,1.0,1996
-Joaquim Jorge 0001,Universidade de Lisboa,assets,1.0,0.25,2009
-Joaquim Jorge 0001,Universidade de Lisboa,assets,1.0,0.25,2010
-Joaquim Jorge 0001,Universidade de Lisboa,assets,1.0,0.2,2011
-Joaquim Jorge 0001,Universidade de Lisboa,assets,1.0,0.5,2012
-Joaquim Jorge 0001,Universidade de Lisboa,chiconf,1.0,0.2,2015
-Joaquim Jorge 0001,Universidade de Lisboa,chiconf,1.0,0.16667,2017
-Joaquim Jorge 0001,Universidade de Lisboa,chiconf,1.0,0.2,2019
-Joaquim Jorge 0001,Universidade de Lisboa,chiplay,1.0,0.25,2014
-Joaquim Jorge 0001,Universidade de Lisboa,dis,1.0,0.25,2014
-Joaquim Jorge 0001,Universidade de Lisboa,eurographics,1.0,0.16667,2005
-Joaquim Jorge 0001,Universidade de Lisboa,eurographics,1.0,0.125,2017
-Joaquim Jorge 0001,Universidade de Lisboa,eurographics,1.0,0.2,2019
-Joaquim Jorge 0001,Universidade de Lisboa,ijhcs,1.0,0.2,2017
-Joaquim Jorge 0001,Universidade de Lisboa,ijhcs,1.0,0.33333,2018
-Joaquim Jorge 0001,Universidade de Lisboa,interact,3.0,0.61667,2011
-Joaquim Jorge 0001,Universidade de Lisboa,interact,1.0,0.33333,2013
-Joaquim Jorge 0001,Universidade de Lisboa,interact,1.0,0.2,2015
-Joaquim Jorge 0001,Universidade de Lisboa,interact,1.0,0.2,2023
-Joaquim Jorge 0001,Universidade de Lisboa,ismar,1.0,0.16667,2025
-Joaquim Jorge 0001,Universidade de Lisboa,iss,1.0,0.25,2014
-Joaquim Jorge 0001,Universidade de Lisboa,iss,1.0,0.25,2016
-Joaquim Jorge 0001,Universidade de Lisboa,iss,1.0,0.125,2017
-Joaquim Jorge 0001,Universidade de Lisboa,iui,1.0,0.5,2008
-Joaquim Jorge 0001,Universidade de Lisboa,iui,1.0,0.2,2016
-Joaquim Jorge 0001,Universidade de Lisboa,siggraph-asia,1.0,0.33333,2019
-Joaquim Jorge 0001,Universidade de Lisboa,vr,1.0,0.25,2006
-Joaquim Jorge 0001,Universidade de Lisboa,vr,1.0,0.14286,2012
-Joaquim Jorge 0001,Universidade de Lisboa,vr,1.0,0.14286,2021
-Joaquim Jorge 0001,Universidade de Lisboa,vr,2.0,0.30952,2023
-Joaquim Jorge 0001,Universidade de Lisboa,vrst,1.0,0.25,2016
-Joaquim Jorge 0001,Universidade de Lisboa,vrst,1.0,0.2,2017
-Joaquim Jorge 0001,Universidade de Lisboa,vrst,1.0,0.16667,2018
-Joaquim Jorge 0001,Universidade de Lisboa,vrst,1.0,0.16667,2022
+Joaquim A. Jorge,Universidade de Lisboa,assets,1.0,0.25,2009
+Joaquim A. Jorge,Universidade de Lisboa,assets,1.0,0.25,2010
+Joaquim A. Jorge,Universidade de Lisboa,assets,1.0,0.2,2011
+Joaquim A. Jorge,Universidade de Lisboa,assets,1.0,0.5,2012
+Joaquim A. Jorge,Universidade de Lisboa,chiconf,1.0,0.2,2015
+Joaquim A. Jorge,Universidade de Lisboa,chiconf,1.0,0.16667,2017
+Joaquim A. Jorge,Universidade de Lisboa,chiconf,1.0,0.2,2019
+Joaquim A. Jorge,Universidade de Lisboa,chiplay,1.0,0.25,2014
+Joaquim A. Jorge,Universidade de Lisboa,dis,1.0,0.25,2014
+Joaquim A. Jorge,Universidade de Lisboa,eurographics,1.0,0.16667,2005
+Joaquim A. Jorge,Universidade de Lisboa,eurographics,1.0,0.125,2017
+Joaquim A. Jorge,Universidade de Lisboa,eurographics,1.0,0.2,2019
+Joaquim A. Jorge,Universidade de Lisboa,ijhcs,1.0,0.2,2017
+Joaquim A. Jorge,Universidade de Lisboa,ijhcs,1.0,0.33333,2018
+Joaquim A. Jorge,Universidade de Lisboa,interact,3.0,0.61667,2011
+Joaquim A. Jorge,Universidade de Lisboa,interact,1.0,0.33333,2013
+Joaquim A. Jorge,Universidade de Lisboa,interact,1.0,0.2,2015
+Joaquim A. Jorge,Universidade de Lisboa,interact,1.0,0.2,2023
+Joaquim A. Jorge,Universidade de Lisboa,ismar,1.0,0.16667,2025
+Joaquim A. Jorge,Universidade de Lisboa,iss,1.0,0.25,2014
+Joaquim A. Jorge,Universidade de Lisboa,iss,1.0,0.25,2016
+Joaquim A. Jorge,Universidade de Lisboa,iss,1.0,0.125,2017
+Joaquim A. Jorge,Universidade de Lisboa,iui,1.0,0.5,2008
+Joaquim A. Jorge,Universidade de Lisboa,iui,1.0,0.2,2016
+Joaquim A. Jorge,Universidade de Lisboa,siggraph-asia,1.0,0.33333,2019
+Joaquim A. Jorge,Universidade de Lisboa,vr,1.0,0.25,2006
+Joaquim A. Jorge,Universidade de Lisboa,vr,1.0,0.14286,2012
+Joaquim A. Jorge,Universidade de Lisboa,vr,1.0,0.14286,2021
+Joaquim A. Jorge,Universidade de Lisboa,vr,2.0,0.30952,2023
+Joaquim A. Jorge,Universidade de Lisboa,vrst,1.0,0.25,2016
+Joaquim A. Jorge,Universidade de Lisboa,vrst,1.0,0.2,2017
+Joaquim A. Jorge,Universidade de Lisboa,vrst,1.0,0.16667,2018
+Joaquim A. Jorge,Universidade de Lisboa,vrst,1.0,0.16667,2022
 Jocelyn Dunstan,UC Chile,nips,1.0,0.013158,2024
 Jocelyn Simmonds,Universidad de Chile,fse,1.0,0.33333,2010
 Jocelyn Simmonds,Universidad de Chile,sigcse,1.0,0.2,2018

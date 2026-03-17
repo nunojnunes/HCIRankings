@@ -86,7 +86,9 @@ var CSRankings;
         'IS': 'https://www.cis.mpg.de/is/',
         'MG': 'https://www.cis.mpg.de/molgen/',
         'SP': 'https://www.cis.mpg.de/mpi-for-security-and-privacy/',
-        'SWS': 'https://www.cis.mpg.de/mpi-sws/'
+        'SWS': 'https://www.cis.mpg.de/mpi-sws/',
+        'ITI': 'https://iti.larsys.pt',
+        'ISR': 'https://www.isr.ist.utl.pt/'
     };
     /* Area definitions with titles */
     CSRankings.areaMap = [
@@ -99,42 +101,37 @@ var CSRankings;
         { area: "design_critical", title: "Design & Critical" },
         { area: "dis", title: "Design & Critical" },
         { area: "cc", title: "Design & Critical" },
-        { area: "compass", title: "Design & Critical" },
         // Ubiquitous and Mobile
         { area: "ubi_mobile", title: "Ubiq. & Mobile" },
         { area: "ubicomp", title: "Ubiq. & Mobile" },
         { area: "mobilehci", title: "Ubiq. & Mobile" },
-        { area: "etra", title: "Ubiq. & Mobile" },
         // Immersive and Visualization
         { area: "immersive_vis", title: "Immersive & Vis." },
-        { area: "vrst", title: "Immersive & Vis." },
         { area: "vr", title: "Immersive & Vis." },
-        { area: "vis", title: "Immersive & Vis." },
         { area: "ismar", title: "Immersive & Vis." },
+        { area: "vis", title: "Immersive & Vis." },
+        { area: "vrst", title: "Immersive & Vis." },
         // Intelligent & Adaptive Systems
         { area: "intelligent", title: "Intelligent & Adaptive" },
-        { area: "iui", title: "Intelligent & Adaptive" },
         { area: "hri", title: "Intelligent & Adaptive" },
-        { area: "recsys", title: "Intelligent & Adaptive" },
-        { area: "umap", title: "Intelligent & Adaptive" },
+        { area: "iui", title: "Intelligent & Adaptive" },
         // Technology and Engineering
         { area: "technology", title: "Technology & Eng." },
         { area: "uist", title: "Technology & Eng." },
         { area: "eics", title: "Technology & Eng." },
         { area: "tei", title: "Technology & Eng." },
         { area: "iss", title: "Technology & Eng." },
-        { area: "sui", title: "Technology & Eng." },
-        { area: "icmi", title: "Technology & Eng." },
         // Accessibility and Social Impact
         { area: "accessibility", title: "Accessibility" },
         { area: "assets", title: "Accessibility" },
         { area: "idc", title: "Accessibility" },
+        { area: "chiplay", title: "Accessibility" },
         // Journals
         { area: "journals", title: "Journals" },
-        { area: "tochi", title: "Journals" },
-        { area: "ijhcs", title: "Journals" },
         { area: "bit", title: "Journals" },
+        { area: "ijhcs", title: "Journals" },
         { area: "ijhci", title: "Journals" },
+        { area: "tochi", title: "Journals" },
     ];
     /* Area category arrays (used by toggle buttons and rendering) */
     CSRankings.aiAreas = ["hci_core", "design_critical", "technology"];
@@ -1344,6 +1341,124 @@ var CSRankings;
     CSRankings.handleChildCheckboxClick = handleChildCheckboxClick;
 })(CSRankings || (CSRankings = {}));
 /*
+  HCIRankings - Rank Filter
+
+  ERA/CORE rank filter for venues (A*, A, B, Journals).
+  Provides batch-toggling of venue checkboxes by rank tier.
+*/
+var CSRankings;
+(function (CSRankings) {
+    /* ERA/CORE 2023 rank assignments for tracked venues */
+    CSRankings.venueRank = {
+        // A*
+        'chiconf': 'astar',
+        'ubicomp': 'astar',
+        'vr': 'astar',
+        'ismar': 'astar',
+        'hri': 'astar',
+        'uist': 'astar',
+        // A
+        'cscw': 'a',
+        'dis': 'a',
+        'vis': 'a',
+        'iui': 'a',
+        'iss': 'a',
+        'assets': 'a',
+        // B
+        'interact': 'b',
+        'cc': 'b',
+        'mobilehci': 'b',
+        'vrst': 'b',
+        'eics': 'b',
+        'tei': 'b',
+        'idc': 'b',
+        'chiplay': 'b',
+        // Journals
+        'tochi': 'journal',
+        'ijhcs': 'journal',
+        'bit': 'journal',
+        'ijhci': 'journal',
+    };
+    /* Read current filter checkbox states */
+    function readFilterState() {
+        var _a, _b, _c, _d;
+        return {
+            astar: !!((_a = document.getElementById('filter-astar')) === null || _a === void 0 ? void 0 : _a.checked),
+            a: !!((_b = document.getElementById('filter-a')) === null || _b === void 0 ? void 0 : _b.checked),
+            b: !!((_c = document.getElementById('filter-b')) === null || _c === void 0 ? void 0 : _c.checked),
+            journals: !!((_d = document.getElementById('filter-journals')) === null || _d === void 0 ? void 0 : _d.checked),
+        };
+    }
+    /* Set venue checkboxes based on selected ranks and update parent checkboxes */
+    function applyVenueCheckboxes(astar, a, b, journals, invalidateCheckboxCache) {
+        // Set each ranked venue checkbox
+        for (const venue in CSRankings.venueRank) {
+            const el = document.getElementById(venue);
+            if (!el)
+                continue;
+            const r = CSRankings.venueRank[venue];
+            el.checked = (r === 'astar' && astar) ||
+                (r === 'a' && a) ||
+                (r === 'b' && b) ||
+                (r === 'journal' && journals);
+        }
+        // Update parent checkboxes: checked if any child is checked
+        const parentsToUpdate = new Set();
+        for (const venue in CSRankings.venueRank) {
+            if (venue in CSRankings.parentMap) {
+                parentsToUpdate.add(CSRankings.parentMap[venue]);
+            }
+        }
+        for (const parent of parentsToUpdate) {
+            const parentEl = document.getElementById(parent);
+            if (!parentEl || !(parent in CSRankings.childMap))
+                continue;
+            parentEl.checked = CSRankings.childMap[parent].some(child => {
+                const childEl = document.getElementById(child);
+                return childEl && childEl.checked;
+            });
+        }
+        invalidateCheckboxCache();
+    }
+    /* Apply rank filter based on current filter checkbox states */
+    function applyRankFilter(invalidateCheckboxCache, rankCallback) {
+        const { astar, a, b, journals } = readFilterState();
+        applyVenueCheckboxes(astar, a, b, journals, invalidateCheckboxCache);
+        rankCallback();
+    }
+    CSRankings.applyRankFilter = applyRankFilter;
+    /* Apply the default A* filter on fresh page load (no rank callback — caller handles it) */
+    function applyDefaultRankFilter(invalidateCheckboxCache) {
+        // Sync filter UI to A* default
+        const fAstar = document.getElementById('filter-astar');
+        const fA = document.getElementById('filter-a');
+        const fB = document.getElementById('filter-b');
+        const fJ = document.getElementById('filter-journals');
+        if (fAstar)
+            fAstar.checked = true;
+        if (fA)
+            fA.checked = false;
+        if (fB)
+            fB.checked = false;
+        if (fJ)
+            fJ.checked = false;
+        applyVenueCheckboxes(true, false, false, false, invalidateCheckboxCache);
+    }
+    CSRankings.applyDefaultRankFilter = applyDefaultRankFilter;
+    /* Wire up rank filter change listeners */
+    function initRankFilter(invalidateCheckboxCache, rankCallback) {
+        for (const id of ['filter-astar', 'filter-a', 'filter-b', 'filter-journals']) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('change', () => {
+                    applyRankFilter(invalidateCheckboxCache, rankCallback);
+                });
+            }
+        }
+    }
+    CSRankings.initRankFilter = initRankFilter;
+})(CSRankings || (CSRankings = {}));
+/*
   CSRankings - Navigation and URL Handling
 
   URL construction, navigation routing, and geolocation handling.
@@ -1463,9 +1578,10 @@ var CSRankings;
                 }
             }
         }
-        // Treat empty query (e.g. initial Navigo redirect to #/index) as "all selected".
+        // Treat empty query (e.g. initial Navigo redirect to #/index) as A* default.
         if (!query || query === '') {
-            query = 'all';
+            CSRankings.applyDefaultRankFilter(invalidateCheckboxCache);
+            return;
         }
         // Clear everything *unless* there are subsets / below-the-fold selected.
         clearNonSubsetted(invalidateCheckboxCache);
@@ -2066,6 +2182,7 @@ var CSRankings;
         addGroupSelectorListeners(callbacks);
         addAreaToggleListeners(callbacks);
         addAreaIndicatorListeners(callbacks);
+        CSRankings.initRankFilter(() => callbacks.invalidateCheckboxCache(), () => callbacks.rank());
     }
     CSRankings.addAllListeners = addAllListeners;
     /* Update area selection indicators based on checkbox states */
@@ -3800,6 +3917,8 @@ var CSRankings;
             /* Debounce timer for rank() calls */
             this.rankDebounceTimer = null;
             this.RANK_DEBOUNCE_MS = 16; // ~1 frame
+            /* True after the first Navigo route callback fires */
+            this.initialLoadDone = false;
             /* === INCREMENTAL UPDATE CACHING === */
             this.incrementalCache = {
                 valid: false,
@@ -3843,7 +3962,7 @@ var CSRankings;
             /* Data for lazy rendering of faculty dropdowns */
             this.lazyRenderData = null;
             App.theInstance = this;
-            this.navigoRouter = new Navigo(null, true);
+            this.navigoRouter = null; // will be assigned in async block after hash is cleared
             /* Build dictionaries:
                areaDict: areas -> names used in pie charts
                areaPosition: areas -> position in area array
@@ -3911,12 +4030,13 @@ var CSRankings;
                 ]);
                 console.log(`All CSV files loaded in ${(performance.now() - loadStart).toFixed(1)}ms`);
                 this.setAllOn();
+                // Clear the hash BEFORE creating Navigo so it never sees the old saved URL.
+                // Navigo captures window.location.hash at construction time, so creating it
+                // here (after replaceState) ensures it starts with an empty route → A* default.
+                window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                this.navigoRouter = new Navigo(null, true);
                 // Populate year selects before URL resolution so options exist when params are parsed
                 CSRankings.populateYearSelects();
-                this.navigoRouter.on({
-                    '/index': (params, query) => this.navigation(params, query),
-                    '/fromyear/:fromyear/toyear/:toyear/index': (params, query) => this.navigation(params, query)
-                }).resolve();
                 // Initialize year slider after URL params are applied
                 CSRankings.initYearSlider(() => {
                     this.invalidateIncrementalCache();
@@ -3931,9 +4051,22 @@ var CSRankings;
                 this.recomputeAuthorAreas();
                 this.addListeners();
                 CSRankings.geoCheck(() => this.rank());
-                this.rank();
                 // Initialize area dropdowns
                 CSRankings.initAreaDropdowns();
+                // Resolve routing LAST. If Navigo finds a matching route it calls navigation().
+                // If the hash is empty, Navigo won't match any route, so we fall through to
+                // the explicit default below.
+                this.navigoRouter.on({
+                    '/index': (params, query) => this.navigation(params, query),
+                    '/fromyear/:fromyear/toyear/:toyear/index': (params, query) => this.navigation(params, query)
+                }).resolve();
+                // If Navigo didn't fire (e.g. empty hash → no matching route),
+                // apply the A* default and do the first render ourselves.
+                if (!this.initialLoadDone) {
+                    this.initialLoadDone = true;
+                    CSRankings.applyDefaultRankFilter(() => this.invalidateCheckboxCache());
+                    this.rank();
+                }
             }))();
         }
         recomputeAuthorAreas() {
@@ -4213,7 +4346,12 @@ var CSRankings;
             return result.url;
         }
         navigation(params, query) {
-            CSRankings.handleNavigation(params, query, () => this.invalidateCheckboxCache());
+            // On the very first load, always apply the A* default regardless of any
+            // saved URL hash in the browser session. Pass empty query so handleNavigation
+            // takes the applyDefaultRankFilter path.
+            const effectiveQuery = this.initialLoadDone ? query : '';
+            this.initialLoadDone = true;
+            CSRankings.handleNavigation(params, effectiveQuery, () => this.invalidateCheckboxCache());
             // If year params changed, trigger full recomputation
             if (params && (params['fromyear'] || params['toyear'])) {
                 this.invalidateIncrementalCache();

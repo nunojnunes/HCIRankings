@@ -87,6 +87,9 @@ namespace CSRankings {
         private rankDebounceTimer: number | null = null;
         private readonly RANK_DEBOUNCE_MS: number = 16; // ~1 frame
 
+        /* True after the first Navigo route callback fires */
+        private initialLoadDone: boolean = false;
+
         /* === INCREMENTAL UPDATE CACHING === */
         private incrementalCache: IncrementalCache = {
             valid: false,
@@ -146,7 +149,7 @@ namespace CSRankings {
 
         constructor() {
             App.theInstance = this;
-            this.navigoRouter = new Navigo(null, true);
+            this.navigoRouter = null!; // will be assigned in async block after hash is cleared
 
             /* Build dictionaries:
                areaDict: areas -> names used in pie charts
@@ -218,12 +221,13 @@ namespace CSRankings {
                 ]);
                 console.log(`All CSV files loaded in ${(performance.now() - loadStart).toFixed(1)}ms`);
                 this.setAllOn();
+                // Clear the hash BEFORE creating Navigo so it never sees the old saved URL.
+                // Navigo captures window.location.hash at construction time, so creating it
+                // here (after replaceState) ensures it starts with an empty route → A* default.
+                window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                this.navigoRouter = new Navigo(null, true);
                 // Populate year selects before URL resolution so options exist when params are parsed
                 populateYearSelects();
-                this.navigoRouter.on({
-                    '/index': (params: { [key: string]: string }, query: string) => this.navigation(params, query),
-                    '/fromyear/:fromyear/toyear/:toyear/index': (params: { [key: string]: string }, query: string) => this.navigation(params, query)
-                }).resolve();
                 // Initialize year slider after URL params are applied
                 initYearSlider(() => {
                     this.invalidateIncrementalCache();
@@ -238,9 +242,22 @@ namespace CSRankings {
                 this.recomputeAuthorAreas();
                 this.addListeners();
                 geoCheck(() => this.rank());
-                this.rank();
                 // Initialize area dropdowns
                 initAreaDropdowns();
+                // Resolve routing LAST. If Navigo finds a matching route it calls navigation().
+                // If the hash is empty, Navigo won't match any route, so we fall through to
+                // the explicit default below.
+                this.navigoRouter.on({
+                    '/index': (params: { [key: string]: string }, query: string) => this.navigation(params, query),
+                    '/fromyear/:fromyear/toyear/:toyear/index': (params: { [key: string]: string }, query: string) => this.navigation(params, query)
+                }).resolve();
+                // If Navigo didn't fire (e.g. empty hash → no matching route),
+                // apply the A* default and do the first render ourselves.
+                if (!this.initialLoadDone) {
+                    this.initialLoadDone = true;
+                    applyDefaultRankFilter(() => this.invalidateCheckboxCache());
+                    this.rank();
+                }
             })();
         }
 
@@ -640,7 +657,12 @@ namespace CSRankings {
         }
 
         public navigation(params: { [key: string]: string }, query: string): void {
-            handleNavigation(params, query, () => this.invalidateCheckboxCache());
+            // On the very first load, always apply the A* default regardless of any
+            // saved URL hash in the browser session. Pass empty query so handleNavigation
+            // takes the applyDefaultRankFilter path.
+            const effectiveQuery = this.initialLoadDone ? query : '';
+            this.initialLoadDone = true;
+            handleNavigation(params, effectiveQuery, () => this.invalidateCheckboxCache());
             // If year params changed, trigger full recomputation
             if (params && (params['fromyear'] || params['toyear'])) {
                 this.invalidateIncrementalCache();

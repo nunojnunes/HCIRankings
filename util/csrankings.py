@@ -383,12 +383,6 @@ areadict: Dict[Area, List[Conference]] = {
     Area("ismar"): [Conference("ISMAR")],
     Area("bit"): [Conference("Behav. Inf. Technol.")],
     Area("ijhci"): [Conference("Int. J. Hum. Comput. Interact.")],
-    Area("compass"): [Conference("COMPASS")],
-    Area("etra"): [Conference("ETRA")],
-    Area("recsys"): [Conference("RecSys")],
-    Area("umap"): [Conference("UMAP"), Conference("UM")],
-    Area("sui"): [Conference("SUI")],
-    Area("icmi"): [Conference("ICMI"), Conference("ICMI-MLMI")],
     Area("idc"): [Conference("IDC")],
 }
 # EMSOFT is now published as a special issue of TECS *or* IEEE TCAD in a particular page range.

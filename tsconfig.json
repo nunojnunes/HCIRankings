@@ -22,6 +22,7 @@
 	"src/rendering.ts",
 	"src/continents.ts",
 	"src/checkbox.ts",
+	"src/rank-filter.ts",
 	"src/navigation.ts",
 	"src/survey.ts",
 	"src/sponsorship.ts",

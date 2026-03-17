@@ -73,7 +73,9 @@ namespace CSRankings {
         'IS': 'https://www.cis.mpg.de/is/',
         'MG': 'https://www.cis.mpg.de/molgen/',
         'SP': 'https://www.cis.mpg.de/mpi-for-security-and-privacy/',
-        'SWS': 'https://www.cis.mpg.de/mpi-sws/'
+        'SWS': 'https://www.cis.mpg.de/mpi-sws/',
+        'ITI': 'https://iti.larsys.pt',
+        'ISR': 'https://www.isr.ist.utl.pt/'
     };
 
     /* Area definitions with titles */
@@ -87,42 +89,37 @@ namespace CSRankings {
         { area: "design_critical",  title: "Design & Critical" },
         { area: "dis",              title: "Design & Critical" },
         { area: "cc",               title: "Design & Critical" },
-        { area: "compass",          title: "Design & Critical" },
         // Ubiquitous and Mobile
         { area: "ubi_mobile",       title: "Ubiq. & Mobile" },
         { area: "ubicomp",          title: "Ubiq. & Mobile" },
         { area: "mobilehci",        title: "Ubiq. & Mobile" },
-        { area: "etra",             title: "Ubiq. & Mobile" },
         // Immersive and Visualization
         { area: "immersive_vis",    title: "Immersive & Vis." },
-        { area: "vrst",             title: "Immersive & Vis." },
         { area: "vr",               title: "Immersive & Vis." },
-        { area: "vis",              title: "Immersive & Vis." },
         { area: "ismar",            title: "Immersive & Vis." },
+        { area: "vis",              title: "Immersive & Vis." },
+        { area: "vrst",             title: "Immersive & Vis." },
         // Intelligent & Adaptive Systems
         { area: "intelligent",      title: "Intelligent & Adaptive" },
-        { area: "iui",              title: "Intelligent & Adaptive" },
         { area: "hri",              title: "Intelligent & Adaptive" },
-        { area: "recsys",           title: "Intelligent & Adaptive" },
-        { area: "umap",             title: "Intelligent & Adaptive" },
+        { area: "iui",              title: "Intelligent & Adaptive" },
         // Technology and Engineering
         { area: "technology",       title: "Technology & Eng." },
         { area: "uist",             title: "Technology & Eng." },
         { area: "eics",             title: "Technology & Eng." },
         { area: "tei",              title: "Technology & Eng." },
         { area: "iss",              title: "Technology & Eng." },
-        { area: "sui",              title: "Technology & Eng." },
-        { area: "icmi",             title: "Technology & Eng." },
         // Accessibility and Social Impact
         { area: "accessibility",    title: "Accessibility" },
         { area: "assets",           title: "Accessibility" },
         { area: "idc",              title: "Accessibility" },
+        { area: "chiplay",          title: "Accessibility" },
         // Journals
         { area: "journals",         title: "Journals" },
-        { area: "tochi",            title: "Journals" },
-        { area: "ijhcs",            title: "Journals" },
         { area: "bit",              title: "Journals" },
+        { area: "ijhcs",            title: "Journals" },
         { area: "ijhci",            title: "Journals" },
+        { area: "tochi",            title: "Journals" },
     ];
 
     /* Area category arrays (used by toggle buttons and rendering) */

@@ -152,6 +152,10 @@ namespace CSRankings {
         addGroupSelectorListeners(callbacks);
         addAreaToggleListeners(callbacks);
         addAreaIndicatorListeners(callbacks);
+        initRankFilter(
+            () => callbacks.invalidateCheckboxCache(),
+            () => callbacks.rank()
+        );
     }
 
     /* Update area selection indicators based on checkbox states */

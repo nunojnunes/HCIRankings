@@ -163,6 +163,48 @@
       .barchart {
       font-size: +1;
       }
+      /* Rank filter bar */
+      #rank-filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 4px 2px;
+      }
+      .rank-filter-label {
+        font-size: 0.72em;
+        color: #888;
+        white-space: nowrap;
+        font-variant: small-caps;
+      }
+      .rank-filter-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .rank-filter-btn input[type="checkbox"] {
+        margin: 0;
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+      }
+      /* Rank badges (in filter bar and next to venue names) */
+      .rank-badge {
+        display: inline-block;
+        font-size: 0.62em;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 3px;
+        vertical-align: middle;
+        line-height: 1.5;
+        letter-spacing: 0.02em;
+      }
+      .rank-astar  { background: #f5c518; color: #333; }
+      .rank-a      { background: #4caf50; color: #fff; }
+      .rank-b      { background: #2196f3; color: #fff; }
+      .rank-journal{ background: #9c27b0; color: #fff; }
     </style>
     <script defer>
       var trackOutboundLink = function(url, new_window) {
@@ -361,6 +403,31 @@
 		  </thead>
 		  <thead>
 		    <tr>
+		      <th colspan="2" style="padding: 6px 4px 4px 4px;">
+			<div id="rank-filter-bar">
+			  <span class="rank-filter-label">ERA/CORE:</span>
+			  <label class="rank-filter-btn" title="Show A* ranked venues">
+			    <input type="checkbox" id="filter-astar" checked>
+			    <span class="rank-badge rank-astar">A&#x2605;</span>
+			  </label>
+			  <label class="rank-filter-btn" title="Show A ranked venues">
+			    <input type="checkbox" id="filter-a">
+			    <span class="rank-badge rank-a">A</span>
+			  </label>
+			  <label class="rank-filter-btn" title="Show B ranked venues">
+			    <input type="checkbox" id="filter-b">
+			    <span class="rank-badge rank-b">B</span>
+			  </label>
+			  <label class="rank-filter-btn" title="Show journals">
+			    <input type="checkbox" id="filter-journals">
+			    <span class="rank-badge rank-journal">Journals</span>
+			  </label>
+			</div>
+		      </th>
+		    </tr>
+		  </thead>
+		  <thead>
+		    <tr>
 		      <th colspan="2" style="text-align: left;">
 			  <span class="area-toggle-btn ai-toggle" id="ai_toggle" data-area="ai" title="Click to toggle Core HCI areas">Core</span>
 		      </th>
@@ -383,15 +450,15 @@
 				  </p>
 				  <table class="table-sm" style="width:100%;">
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/chi/index.html">CHI</a></td>
+				      <td><a href="https://dblp.org/db/conf/chi/index.html">CHI</a> <span class="rank-badge rank-astar">A&#x2605;</span></td>
 				      <td align="right"><input type="checkbox" name="chiconf" id="chiconf" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/cscw/index.html">CSCW</a> / <a href="https://dblp.org/db/journals/pacmhci/index.html">PACMHCI</a></td>
+				      <td><a href="https://dblp.org/db/conf/cscw/index.html">CSCW</a> / <a href="https://dblp.org/db/journals/pacmhci/index.html">PACMHCI</a> <span class="rank-badge rank-a">A</span></td>
 				      <td align="right"><input type="checkbox" name="cscw" id="cscw" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/interact/index.html">INTERACT</a></td>
+				      <td><a href="https://dblp.org/db/conf/interact/index.html">INTERACT</a> <span class="rank-badge rank-b">B</span></td>
 				      <td align="right"><input type="checkbox" name="interact" id="interact" value="1.0"/></td>
 				    </tr>
 				  </table>
@@ -417,16 +484,12 @@
 				<td>
 				  <table class="table-sm" style="width:100%;">
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/dis/index.html">DIS</a></td>
+				      <td><a href="https://dblp.org/db/conf/dis/index.html">DIS</a> <span class="rank-badge rank-a">A</span></td>
 				      <td align="right"><input type="checkbox" name="dis" id="dis" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/cc/index.html">C&amp;C</a></td>
+				      <td><a href="https://dblp.org/db/conf/cc/index.html">C&amp;C</a> <span class="rank-badge rank-b">B</span></td>
 				      <td align="right"><input type="checkbox" name="cc" id="cc" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/acmcompass/index.html">COMPASS</a></td>
-				      <td align="right"><input type="checkbox" name="compass" id="compass" value="1.0"/></td>
 				    </tr>
 				  </table>
 				</td>
@@ -451,28 +514,20 @@
 				<td>
 				  <table class="table-sm" style="width:100%;">
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/uist/index.html">UIST</a></td>
+				      <td><a href="https://dblp.org/db/conf/uist/index.html">UIST</a> <span class="rank-badge rank-astar">A&#x2605;</span></td>
 				      <td align="right"><input type="checkbox" name="uist" id="uist" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/eics/index.html">EICS</a></td>
+				      <td><a href="https://dblp.org/db/conf/eics/index.html">EICS</a> <span class="rank-badge rank-b">B</span></td>
 				      <td align="right"><input type="checkbox" name="eics" id="eics" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/tei/index.html">TEI</a></td>
+				      <td><a href="https://dblp.org/db/conf/tei/index.html">TEI</a> <span class="rank-badge rank-b">B</span></td>
 				      <td align="right"><input type="checkbox" name="tei" id="tei" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/iss/index.html">ISS</a> / <a href="https://dblp.org/db/conf/tabletop/index.html">ITS</a></td>
+				      <td><a href="https://dblp.org/db/conf/iss/index.html">ISS</a> / <a href="https://dblp.org/db/conf/tabletop/index.html">ITS</a> <span class="rank-badge rank-a">A</span></td>
 				      <td align="right"><input type="checkbox" name="iss" id="iss" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/sui/index.html">SUI</a></td>
-				      <td align="right"><input type="checkbox" name="sui" id="sui" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/icmi/index.html">ICMI</a></td>
-				      <td align="right"><input type="checkbox" name="icmi" id="icmi" value="1.0"/></td>
 				    </tr>
 				  </table>
 				</td>
@@ -509,16 +564,12 @@
 				<td>
 				  <table class="table-sm" style="width:100%;">
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/huc/index.html">UbiComp</a> / <a href="https://dblp.org/db/journals/imwut/index.html">IMWUT</a></td>
+				      <td><a href="https://dblp.org/db/conf/huc/index.html">UbiComp</a> / <a href="https://dblp.org/db/journals/imwut/index.html">IMWUT</a> <span class="rank-badge rank-astar">A&#x2605;</span></td>
 				      <td align="right"><input type="checkbox" name="ubicomp" id="ubicomp" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/mhci/index.html">MobileHCI</a></td>
+				      <td><a href="https://dblp.org/db/conf/mhci/index.html">MobileHCI</a> <span class="rank-badge rank-b">B</span></td>
 				      <td align="right"><input type="checkbox" name="mobilehci" id="mobilehci" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/etra/index.html">ETRA</a></td>
-				      <td align="right"><input type="checkbox" name="etra" id="etra" value="1.0"/></td>
 				    </tr>
 				  </table>
 				</td>
@@ -543,21 +594,21 @@
 				<td>
 				  <table class="table-sm" style="width:100%;">
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/vrst/index.html">VRST</a></td>
-				      <td align="right"><input type="checkbox" name="vrst" id="vrst" value="1.0"/></td>
-				    </tr>
+						<td><a href="https://dblp.org/db/conf/vr/index.html">IEEE VR</a> <span class="rank-badge rank-astar">A&#x2605;</span></td>
+						<td align="right"><input type="checkbox" name="vr" id="vr" value="1.0"/></td>
+					  </tr>
+					  <tr>
+						<td><a href="https://dblp.org/db/conf/ismar/index.html">ISMAR</a> <span class="rank-badge rank-astar">A&#x2605;</span></td>
+						<td align="right"><input type="checkbox" name="ismar" id="ismar" value="1.0"/></td>
+					  </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/vr/index.html">IEEE VR</a></td>
-				      <td align="right"><input type="checkbox" name="vr" id="vr" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/visualization/index.html">IEEE VIS</a></td>
+				      <td><a href="https://dblp.org/db/conf/visualization/index.html">IEEE VIS</a> <span class="rank-badge rank-a">A</span></td>
 				      <td align="right"><input type="checkbox" name="vis" id="vis" value="1.0"/></td>
 				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/ismar/index.html">ISMAR</a></td>
-				      <td align="right"><input type="checkbox" name="ismar" id="ismar" value="1.0"/></td>
-				    </tr>
+					<tr>
+						<td><a href="https://dblp.org/db/conf/vrst/index.html">VRST</a> <span class="rank-badge rank-b">B</span></td>
+						<td align="right"><input type="checkbox" name="vrst" id="vrst" value="1.0"/></td>
+					  </tr>
 				  </table>
 				</td>
 			      </tr>
@@ -580,21 +631,13 @@
 			      <tr style="width:100%">
 				<td>
 				  <table class="table-sm" style="width:100%;">
+					<tr>
+						<td><a href="https://dblp.org/db/conf/hri/index.html">HRI</a> <span class="rank-badge rank-astar">A&#x2605;</span></td>
+						<td align="right"><input type="checkbox" name="hri" id="hri" value="1.0"/></td>
+					  </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/iui/index.html">IUI</a></td>
+				      <td><a href="https://dblp.org/db/conf/iui/index.html">IUI</a> <span class="rank-badge rank-a">A</span></td>
 				      <td align="right"><input type="checkbox" name="iui" id="iui" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/hri/index.html">HRI</a></td>
-				      <td align="right"><input type="checkbox" name="hri" id="hri" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/recsys/index.html">RecSys</a></td>
-				      <td align="right"><input type="checkbox" name="recsys" id="recsys" value="1.0"/></td>
-				    </tr>
-				    <tr>
-				      <td><a href="https://dblp.org/db/conf/um/index.html">UMAP</a></td>
-				      <td align="right"><input type="checkbox" name="umap" id="umap" value="1.0"/></td>
 				    </tr>
 				  </table>
 				</td>
@@ -622,13 +665,17 @@
 				  </p>
 				  <table class="table-sm" style="width:100%;">
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/assets/index.html">ASSETS</a></td>
+				      <td><a href="https://dblp.org/db/conf/assets/index.html">ASSETS</a> <span class="rank-badge rank-a">A</span></td>
 				      <td align="right"><input type="checkbox" name="assets" id="assets" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/conf/idc/index.html">IDC</a></td>
+				      <td><a href="https://dblp.org/db/conf/idc/index.html">IDC</a> <span class="rank-badge rank-b">B</span></td>
 				      <td align="right"><input type="checkbox" name="idc" id="idc" value="1.0"/></td>
 				    </tr>
+					<tr>
+						<td><a href="https://dblp.org/db/conf/chiplay/index.html">CHI PLAY</a> <span class="rank-badge rank-b">B</span></td>
+						<td align="right"><input type="checkbox" name="chiplay" id="chiplay" value="1.0"/></td>				  
+					</tr>
 				  </table>
 				</td>
 			      </tr>
@@ -664,21 +711,21 @@
 				<td>
 				  <table class="table-sm" style="width:100%;">
 				    <tr>
-				      <td><a href="https://dblp.org/db/journals/tochi/index.html">TOCHI</a></td>
-				      <td align="right"><input type="checkbox" name="tochi" id="tochi" value="1.0"/></td>
-				    </tr>
+						<td><a href="https://dblp.org/db/journals/bit/index.html">Behaviour &amp; Info. Tech.</a></td>
+						<td align="right"><input type="checkbox" name="bit" id="bit" value="1.0"/></td>
+					  </tr>
 				    <tr>
 				      <td><a href="https://dblp.org/db/journals/ijhcs/index.html">IJHCS</a></td>
 				      <td align="right"><input type="checkbox" name="ijhcs" id="ijhcs" value="1.0"/></td>
 				    </tr>
 				    <tr>
-				      <td><a href="https://dblp.org/db/journals/bit/index.html">Behaviour &amp; Info. Tech.</a></td>
-				      <td align="right"><input type="checkbox" name="bit" id="bit" value="1.0"/></td>
-				    </tr>
-				    <tr>
 				      <td><a href="https://dblp.org/db/journals/ijhci/index.html">IJHCI</a></td>
 				      <td align="right"><input type="checkbox" name="ijhci" id="ijhci" value="1.0"/></td>
 				    </tr>
+					<tr>
+						<td><a href="https://dblp.org/db/journals/tochi/index.html">TOCHI</a></td>
+						<td align="right"><input type="checkbox" name="tochi" id="tochi" value="1.0"/></td>
+					</tr>
 				  </table>
 				</td>
 			      </tr>
