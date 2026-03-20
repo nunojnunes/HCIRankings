@@ -132,10 +132,10 @@ backup-dblp:
 # DBLP releases are at: https://drops.dagstuhl.de/storage/artifacts/dblp/xml/YYYY/dblp-YYYY-MM-01.xml.gz
 download-prev-dblp:
 	@echo "Downloading previous DBLP snapshot based on last update date..."
-	@MONTH_YEAR=$$(grep -oE 'DBLP</a> \([A-Za-z]+ [0-9]{4}\)' index.html | grep -oE '[A-Za-z]+ [0-9]+'); \
+	@MONTH_YEAR=$$(grep -oE 'DBLP</a> \(last update [A-Za-z]+ [0-9]{4}\)' index.html | grep -oE '[A-Za-z]+ [0-9]+'); \
 	if [ -z "$$MONTH_YEAR" ]; then \
-		echo "Error: Could not parse DBLP date from index.html"; \
-		exit 1; \
+		echo "Warning: Could not parse DBLP date from index.html (first run?). Skipping previous snapshot download."; \
+		exit 0; \
 	fi; \
 	YEAR=$$(echo "$$MONTH_YEAR" | grep -oE '[0-9]+'); \
 	MONTH_NAME=$$(echo "$$MONTH_YEAR" | grep -oE '[A-Za-z]+'); \
