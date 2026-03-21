@@ -153,6 +153,152 @@ namespace CSRankings {
     export const OpenBarChartIcon = "<img class='open_chart_icon chart_icon' alt='opened chart' src='png/barchart-open.png'>"; // opened bar chart image
     export const PieChartIcon = "<img class='closed_chart_icon chart_icon' alt='closed chart' src='png/piechart.png'>";
     export const OpenPieChartIcon = "<img class='open_chart_icon chart_icon' alt='opened chart' src='png/piechart-open.png'>";
+    export const PublicationsIcon = `<svg class="pub-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>`;
+
+    /* Exact booktitle/journal strings accepted by the counting script (util/csrankings.py).
+       Used to filter DBLP XML results so the publication list matches the counted papers exactly. */
+    export const validDBLPVenueNames: { [name: string]: boolean } = {
+        // chiconf
+        'CHI': true,
+        // ubicomp
+        'UbiComp': true, 'Ubicomp': true, 'IMWUT': true, 'Pervasive': true,
+        'Proc. ACM Interact. Mob. Wearable Ubiquitous Technol.': true,
+        // uist
+        'UIST': true,
+        // vis
+        'IEEE Visualization': true, 'IEEE Trans. Vis. Comput. Graph.': true,
+        // vr
+        'VR': true,
+        // cscw / pacmhci
+        'CSCW': true, 'Proc. ACM Hum. Comput. Interact.': true,
+        // assets
+        'ASSETS': true,
+        // dis
+        'DIS': true, 'Conference on Designing Interactive Systems': true,
+        'Symposium on Designing Interactive Systems': true,
+        // tei
+        'TEI': true,
+        // iss
+        'ISS': true, 'ITS': true,
+        // iui
+        'IUI': true,
+        // mobilehci
+        'MobileHCI': true,
+        // chiplay
+        'CHI PLAY': true,
+        // hri
+        'HRI': true,
+        // cc
+        'Creativity & Cognition': true,
+        // vrst
+        'VRST': true,
+        // eics
+        'EICS': true,
+        // interact
+        'INTERACT': true, 'INTERACT (1)': true, 'INTERACT (2)': true,
+        'INTERACT (3)': true, 'INTERACT (4)': true, 'INTERACT (5)': true,
+        // ismar
+        'ISMAR': true,
+        // idc
+        'IDC': true,
+        // journals
+        'ACM Trans. Comput. Hum. Interact.': true,
+        'Int. J. Hum. Comput. Stud.': true,
+        'Behav. Inf. Technol.': true,
+        'Int. J. Hum. Comput. Interact.': true,
+    };
+
+    /* Maps verbose DBLP booktitle/journal strings to short display names. */
+    export const venueDisplayName: { [name: string]: string } = {
+        // ubicomp
+        'Proc. ACM Interact. Mob. Wearable Ubiquitous Technol.': 'IMWUT',
+        'Ubicomp': 'UbiComp',
+        // vis
+        'IEEE Visualization': 'IEEE Vis',
+        'IEEE Trans. Vis. Comput. Graph.': 'TVCG',
+        // cscw
+        'Proc. ACM Hum. Comput. Interact.': 'CSCW',
+        // dis
+        'Conference on Designing Interactive Systems': 'DIS',
+        'Symposium on Designing Interactive Systems': 'DIS',
+        // iss
+        'ITS': 'ISS',
+        // cc
+        'Creativity & Cognition': 'C&C',
+        // interact
+        'INTERACT (1)': 'INTERACT', 'INTERACT (2)': 'INTERACT',
+        'INTERACT (3)': 'INTERACT', 'INTERACT (4)': 'INTERACT',
+        'INTERACT (5)': 'INTERACT',
+        // journals
+        'ACM Trans. Comput. Hum. Interact.': 'TOCHI',
+        'Int. J. Hum. Comput. Stud.': 'IJHCS',
+        'Behav. Inf. Technol.': 'BIT',
+        'Int. J. Hum. Comput. Interact.': 'IJHCI',
+    };
+
+    /* Maps exact DBLP booktitle/journal strings to their ERA/CORE rank tier.
+       Derived from venueRank (rank-filter.ts) + validDBLPVenueNames above. */
+    export const venueNameToRank: { [name: string]: string } = {
+        // A* venues
+        'CHI': 'astar',
+        'UbiComp': 'astar', 'Ubicomp': 'astar', 'IMWUT': 'astar', 'Pervasive': 'astar',
+        'Proc. ACM Interact. Mob. Wearable Ubiquitous Technol.': 'astar',
+        'UIST': 'astar',
+        'IEEE Visualization': 'astar', 'IEEE Trans. Vis. Comput. Graph.': 'astar',
+        'VR': 'astar',
+        'ISMAR': 'astar',
+        // A venues
+        'CSCW': 'a', 'Proc. ACM Hum. Comput. Interact.': 'a',
+        'ASSETS': 'a',
+        'DIS': 'a', 'Conference on Designing Interactive Systems': 'a',
+        'Symposium on Designing Interactive Systems': 'a',
+        'IUI': 'a',
+        'ISS': 'a', 'ITS': 'a',
+        'HRI': 'a',
+        // B venues
+        'INTERACT': 'b', 'INTERACT (1)': 'b', 'INTERACT (2)': 'b',
+        'INTERACT (3)': 'b', 'INTERACT (4)': 'b', 'INTERACT (5)': 'b',
+        'Creativity & Cognition': 'b',
+        'MobileHCI': 'b',
+        'VRST': 'b',
+        'EICS': 'b',
+        'TEI': 'b',
+        'IDC': 'b',
+        'CHI PLAY': 'b',
+        // Journals
+        'ACM Trans. Comput. Hum. Interact.': 'journal',
+        'Int. J. Hum. Comput. Stud.': 'journal',
+        'Behav. Inf. Technol.': 'journal',
+        'Int. J. Hum. Comput. Interact.': 'journal',
+    };
+
+    /* DBLP key prefixes for each tracked venue — used to filter DBLP API results */
+    export const venueDBLPPrefix: { [area: string]: string[] } = {
+        'chiconf':   ['conf/chi/'],
+        'cscw':      ['conf/cscw/', 'journals/pacmhci/'],
+        'uist':      ['conf/uist/'],
+        'ubicomp':   ['conf/huc/', 'journals/imwut/'],
+        'vr':        ['conf/vr/'],
+        'ismar':     ['conf/ismar/'],
+        'hri':       ['conf/hri/'],
+        'dis':       ['conf/dis/'],
+        'vis':       ['conf/visualization/', 'conf/visweek/'],
+        'iui':       ['conf/iui/'],
+        'iss':       ['conf/iss/', 'conf/tabletop/'],
+        'assets':    ['conf/assets/'],
+        'interact':  ['conf/interact/'],
+        'cc':        ['conf/cc/'],
+        'mobilehci': ['conf/mhci/'],
+        'vrst':      ['conf/vrst/'],
+        'eics':      ['conf/eics/'],
+        'tei':       ['conf/tei/'],
+        'idc':       ['conf/idc/'],
+        'chiplay':   ['conf/chiplay/'],
+        'tochi':     ['journals/tochi/'],
+        'ijhcs':     ['journals/ijhcs/'],
+        'bit':       ['journals/bit/'],
+        'ijhci':     ['journals/ijhci/'],
+    };
 
     /* Ranking configuration */
     export const minToRank = 5000; // show all entries (lazy rendering makes this fast)

@@ -14,7 +14,6 @@ namespace CSRankings {
         'ubicomp':  'astar',
         'vr':       'astar',
         'ismar':    'astar',
-        'hri':      'astar',
         'uist':     'astar',
         // A
         'cscw':     'a',
@@ -23,6 +22,7 @@ namespace CSRankings {
         'iui':      'a',
         'iss':      'a',
         'assets':   'a',
+        'hri':      'a',
         // B
         'interact': 'b',
         'cc':       'b',

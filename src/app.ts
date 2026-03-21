@@ -547,6 +547,97 @@ namespace CSRankings {
 
         }
 
+        /* Show or hide a faculty member's publication list (fetched from DBLP).
+           Uses a two-step fetch: author search → numeric PID → person XML. */
+        public togglePublications(name: string): void {
+            const panel = document.getElementById(name + '-publications') as HTMLDivElement;
+            if (!panel) { return; }
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+                panel.innerHTML = '';
+                return;
+            }
+            panel.style.display = 'block';
+            panel.innerHTML = '<div class="pub-loading">Loading publications\u2026</div>';
+
+            const originalName = unescape(name);
+
+            // Render a publications table from a list of pub objects.
+            const renderTable = (pubs: Array<{title: string; venue: string; year: string; doi: string; url: string}>) => {
+                if (pubs.length === 0) {
+                    panel.innerHTML = '<div class="pub-empty">No tracked-venue publications found on DBLP.</div>';
+                    return;
+                }
+                const rankLabel: { [r: string]: string } = {
+                    'astar': 'A*', 'a': 'A', 'b': 'B', 'journal': 'Jnl',
+                };
+                let html = '<small><table class="pub-table">'
+                    + '<colgroup><col class="col-title"><col class="col-venue"><col class="col-year"><col class="col-rank"></colgroup>'
+                    + '<thead><tr><th>Title</th><th>Venue</th><th>Year</th><th>Rank</th></tr></thead><tbody>';
+                for (const pub of pubs) {
+                    const titleCell = pub.url
+                        ? `<a href="${pub.url}" target="_blank" onclick="event.stopPropagation();">${he.encode(pub.title)}</a>`
+                        : he.encode(pub.title);
+                    const rank = venueNameToRank[pub.venue] || '';
+                    const rankStr = rankLabel[rank] || '';
+                    const venueShort = venueDisplayName[pub.venue] || pub.venue;
+                    html += `<tr><td>${titleCell}</td><td>${he.encode(venueShort)}</td><td>${pub.year}</td><td><span class="rank-badge rank-${rank}">${rankStr}</span></td></tr>`;
+                }
+                html += '</tbody></table></small>';
+                panel.innerHTML = html;
+            };
+
+            // Parse person XML from DBLP and extract tracked-venue publications.
+            const parsePersonXML = (xml: string) => {
+                const doc = (new DOMParser()).parseFromString(xml, 'text/xml');
+                const pubs: Array<{title: string; venue: string; year: string; doi: string; url: string}> = [];
+                doc.querySelectorAll('r > *').forEach((el: Element) => {
+                    // Filter by exact booktitle/journal name — mirrors what util/csrankings.py counts.
+                    const venueEl = el.querySelector('booktitle') || el.querySelector('journal');
+                    const venueName = venueEl?.textContent || '';
+                    if (!validDBLPVenueNames[venueName]) { return; }
+                    // <ee> holds the DOI URL; <doi> holds the bare DOI (often absent).
+                    const eeText  = el.querySelector('ee')?.textContent  || '';
+                    const doiText = el.querySelector('doi')?.textContent || '';
+                    // Fall back to extracting DOI from the ee URL if <doi> is missing.
+                    const doi = doiText || (eeText.includes('doi.org/') ? eeText.replace(/^.*doi\.org\//, '') : '');
+                    pubs.push({
+                        title: el.querySelector('title')?.textContent?.replace(/\.$/, '') || '',
+                        venue: venueName,
+                        year:  el.querySelector('year')?.textContent || '',
+                        doi,
+                        url:   eeText,
+                    });
+                });
+                pubs.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+                renderTable(pubs);
+            };
+
+            // Step 1: author search to resolve the numeric DBLP PID URL.
+            // Strip trailing disambiguation number (" 0001") for the search query.
+            const searchName = originalName.replace(/\s+\d{4}$/, '');
+            const authorApiUrl = `https://dblp.org/search/author/api?q=${encodeURIComponent(searchName)}&format=json&h=10`;
+            fetch(authorApiUrl)
+                .then(r => r.json())
+                .then((data: any) => {
+                    const rawHits = data?.result?.hits?.hit;
+                    const hits: any[] = Array.isArray(rawHits) ? rawHits : (rawHits ? [rawHits] : []);
+                    // Prefer an exact name match; fall back to first result.
+                    const match = hits.find((h: any) => h.info?.author === originalName) || hits[0];
+                    if (!match?.info?.url) {
+                        panel.innerHTML = '<div class="pub-error">Author not found on DBLP.</div>';
+                        return;
+                    }
+                    // Step 2: fetch the person XML (numeric PID URL + ".xml").
+                    return fetch(match.info.url + '.xml')
+                        .then(r => r.text())
+                        .then(parsePersonXML);
+                })
+                .catch(() => {
+                    panel.innerHTML = '<div class="pub-error">Failed to load publications from DBLP.</div>';
+                });
+        }
+
         /* Expand or collape the view of conferences in a given area. */
         public toggleConferences(area: string): void {
             const e = document.getElementById(area + "-conferences");

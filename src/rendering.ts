@@ -52,11 +52,13 @@ namespace CSRankings {
         for (const name of keys) {
             const homePage = encodeURI(homepages[name]);
             const dblpName = dblpAuthors[name];
+            // Strip trailing DBLP disambiguation number (e.g. " 0001") for display only.
+            const displayName = name.replace(/\s+\d{4}$/, '');
 
-            p += `<tr class="faculty-row" style="cursor:pointer;" onclick="window.open('${homePage}', '_blank'); trackOutboundLink('${homePage}', true);" title="Click anywhere to visit ${name}'s home page"><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><small>`
+            p += `<tr class="faculty-row" style="cursor:pointer;" onclick="window.open('${homePage}', '_blank'); trackOutboundLink('${homePage}', true);" title="Click anywhere to visit ${displayName}'s home page"><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><small>`
                 + `<a title="Click for author\'s home page." target="_blank" href="${homePage}" `
                 + `onclick="event.stopPropagation(); trackOutboundLink('${homePage}', true); return false;"`
-                + `>${name}</a>&nbsp;`;
+                + `>${displayName}</a>&nbsp;`;
             if (note.hasOwnProperty(name)) {
                 const url = noteMap[note[name]];
                 const href = `<a href="${url}" onclick="event.stopPropagation();">`;
@@ -90,6 +92,8 @@ namespace CSRankings {
 
             p += `<span onclick='event.stopPropagation(); csr.toggleChart("${escape(name)}"); ga("send", "event", "chart", "toggle", "toggle ${escape(name)} ${(document.getElementById("charttype") as HTMLSelectElement).value} chart");' title="Click for author's publication profile." class="hovertip" id="${escape(name) + '-chartwidget'}">`;
             p += ChartIcon + "</span>"
+                + `&nbsp;<span onclick='event.stopPropagation(); csr.togglePublications("${escape(name)}");' title="Click to list publications." class="hovertip">`
+                + PublicationsIcon + "</span>"
                 + '</small>'
                 + '</td><td align="right"><small>'
                 + `<a title="Click for author's DBLP entry." target="_blank" href="${dblpName}" `
@@ -98,9 +102,12 @@ namespace CSRankings {
                 + '<td align="right"><small>'
                 + (Math.round(10.0 * facultyAdjustedCount[name]) / 10.0).toFixed(1)
                 + "</small></td></tr>"
-                + "<tr><td colspan=\"4\">"
+                + "<tr class=\"chart-row\"><td colspan=\"4\">"
                 + `<div class="csr-chart" id="${escape(name)}-chart">`
                 + '</div>'
+                + "</td></tr>"
+                + "<tr class=\"pub-row\"><td colspan=\"4\">"
+                + `<div class="pub-panel" id="${escape(name)}-publications" style="display:none"></div>`
                 + "</td></tr>";
         }
         p += "</tbody></table></div>";

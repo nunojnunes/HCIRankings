@@ -160,6 +160,148 @@ var CSRankings;
     CSRankings.OpenBarChartIcon = "<img class='open_chart_icon chart_icon' alt='opened chart' src='png/barchart-open.png'>"; // opened bar chart image
     CSRankings.PieChartIcon = "<img class='closed_chart_icon chart_icon' alt='closed chart' src='png/piechart.png'>";
     CSRankings.OpenPieChartIcon = "<img class='open_chart_icon chart_icon' alt='opened chart' src='png/piechart-open.png'>";
+    CSRankings.PublicationsIcon = `<svg class="pub-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>`;
+    /* Exact booktitle/journal strings accepted by the counting script (util/csrankings.py).
+       Used to filter DBLP XML results so the publication list matches the counted papers exactly. */
+    CSRankings.validDBLPVenueNames = {
+        // chiconf
+        'CHI': true,
+        // ubicomp
+        'UbiComp': true, 'Ubicomp': true, 'IMWUT': true, 'Pervasive': true,
+        'Proc. ACM Interact. Mob. Wearable Ubiquitous Technol.': true,
+        // uist
+        'UIST': true,
+        // vis
+        'IEEE Visualization': true, 'IEEE Trans. Vis. Comput. Graph.': true,
+        // vr
+        'VR': true,
+        // cscw / pacmhci
+        'CSCW': true, 'Proc. ACM Hum. Comput. Interact.': true,
+        // assets
+        'ASSETS': true,
+        // dis
+        'DIS': true, 'Conference on Designing Interactive Systems': true,
+        'Symposium on Designing Interactive Systems': true,
+        // tei
+        'TEI': true,
+        // iss
+        'ISS': true, 'ITS': true,
+        // iui
+        'IUI': true,
+        // mobilehci
+        'MobileHCI': true,
+        // chiplay
+        'CHI PLAY': true,
+        // hri
+        'HRI': true,
+        // cc
+        'Creativity & Cognition': true,
+        // vrst
+        'VRST': true,
+        // eics
+        'EICS': true,
+        // interact
+        'INTERACT': true, 'INTERACT (1)': true, 'INTERACT (2)': true,
+        'INTERACT (3)': true, 'INTERACT (4)': true, 'INTERACT (5)': true,
+        // ismar
+        'ISMAR': true,
+        // idc
+        'IDC': true,
+        // journals
+        'ACM Trans. Comput. Hum. Interact.': true,
+        'Int. J. Hum. Comput. Stud.': true,
+        'Behav. Inf. Technol.': true,
+        'Int. J. Hum. Comput. Interact.': true,
+    };
+    /* Maps verbose DBLP booktitle/journal strings to short display names. */
+    CSRankings.venueDisplayName = {
+        // ubicomp
+        'Proc. ACM Interact. Mob. Wearable Ubiquitous Technol.': 'IMWUT',
+        'Ubicomp': 'UbiComp',
+        // vis
+        'IEEE Visualization': 'IEEE Vis',
+        'IEEE Trans. Vis. Comput. Graph.': 'TVCG',
+        // cscw
+        'Proc. ACM Hum. Comput. Interact.': 'CSCW',
+        // dis
+        'Conference on Designing Interactive Systems': 'DIS',
+        'Symposium on Designing Interactive Systems': 'DIS',
+        // iss
+        'ITS': 'ISS',
+        // cc
+        'Creativity & Cognition': 'C&C',
+        // interact
+        'INTERACT (1)': 'INTERACT', 'INTERACT (2)': 'INTERACT',
+        'INTERACT (3)': 'INTERACT', 'INTERACT (4)': 'INTERACT',
+        'INTERACT (5)': 'INTERACT',
+        // journals
+        'ACM Trans. Comput. Hum. Interact.': 'TOCHI',
+        'Int. J. Hum. Comput. Stud.': 'IJHCS',
+        'Behav. Inf. Technol.': 'BIT',
+        'Int. J. Hum. Comput. Interact.': 'IJHCI',
+    };
+    /* Maps exact DBLP booktitle/journal strings to their ERA/CORE rank tier.
+       Derived from venueRank (rank-filter.ts) + validDBLPVenueNames above. */
+    CSRankings.venueNameToRank = {
+        // A* venues
+        'CHI': 'astar',
+        'UbiComp': 'astar', 'Ubicomp': 'astar', 'IMWUT': 'astar', 'Pervasive': 'astar',
+        'Proc. ACM Interact. Mob. Wearable Ubiquitous Technol.': 'astar',
+        'UIST': 'astar',
+        'IEEE Visualization': 'astar', 'IEEE Trans. Vis. Comput. Graph.': 'astar',
+        'VR': 'astar',
+        'ISMAR': 'astar',
+        // A venues
+        'CSCW': 'a', 'Proc. ACM Hum. Comput. Interact.': 'a',
+        'ASSETS': 'a',
+        'DIS': 'a', 'Conference on Designing Interactive Systems': 'a',
+        'Symposium on Designing Interactive Systems': 'a',
+        'IUI': 'a',
+        'ISS': 'a', 'ITS': 'a',
+        'HRI': 'a',
+        // B venues
+        'INTERACT': 'b', 'INTERACT (1)': 'b', 'INTERACT (2)': 'b',
+        'INTERACT (3)': 'b', 'INTERACT (4)': 'b', 'INTERACT (5)': 'b',
+        'Creativity & Cognition': 'b',
+        'MobileHCI': 'b',
+        'VRST': 'b',
+        'EICS': 'b',
+        'TEI': 'b',
+        'IDC': 'b',
+        'CHI PLAY': 'b',
+        // Journals
+        'ACM Trans. Comput. Hum. Interact.': 'journal',
+        'Int. J. Hum. Comput. Stud.': 'journal',
+        'Behav. Inf. Technol.': 'journal',
+        'Int. J. Hum. Comput. Interact.': 'journal',
+    };
+    /* DBLP key prefixes for each tracked venue — used to filter DBLP API results */
+    CSRankings.venueDBLPPrefix = {
+        'chiconf': ['conf/chi/'],
+        'cscw': ['conf/cscw/', 'journals/pacmhci/'],
+        'uist': ['conf/uist/'],
+        'ubicomp': ['conf/huc/', 'journals/imwut/'],
+        'vr': ['conf/vr/'],
+        'ismar': ['conf/ismar/'],
+        'hri': ['conf/hri/'],
+        'dis': ['conf/dis/'],
+        'vis': ['conf/visualization/', 'conf/visweek/'],
+        'iui': ['conf/iui/'],
+        'iss': ['conf/iss/', 'conf/tabletop/'],
+        'assets': ['conf/assets/'],
+        'interact': ['conf/interact/'],
+        'cc': ['conf/cc/'],
+        'mobilehci': ['conf/mhci/'],
+        'vrst': ['conf/vrst/'],
+        'eics': ['conf/eics/'],
+        'tei': ['conf/tei/'],
+        'idc': ['conf/idc/'],
+        'chiplay': ['conf/chiplay/'],
+        'tochi': ['journals/tochi/'],
+        'ijhcs': ['journals/ijhcs/'],
+        'bit': ['journals/bit/'],
+        'ijhci': ['journals/ijhci/'],
+    };
     /* Ranking configuration */
     CSRankings.minToRank = 5000; // show all entries (lazy rendering makes this fast)
     /* Name matcher regex for notes in brackets */
@@ -867,10 +1009,12 @@ var CSRankings;
         for (const name of keys) {
             const homePage = encodeURI(homepages[name]);
             const dblpName = dblpAuthors[name];
-            p += `<tr class="faculty-row" style="cursor:pointer;" onclick="window.open('${homePage}', '_blank'); trackOutboundLink('${homePage}', true);" title="Click anywhere to visit ${name}'s home page"><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><small>`
+            // Strip trailing DBLP disambiguation number (e.g. " 0001") for display only.
+            const displayName = name.replace(/\s+\d{4}$/, '');
+            p += `<tr class="faculty-row" style="cursor:pointer;" onclick="window.open('${homePage}', '_blank'); trackOutboundLink('${homePage}', true);" title="Click anywhere to visit ${displayName}'s home page"><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><small>`
                 + `<a title="Click for author\'s home page." target="_blank" href="${homePage}" `
                 + `onclick="event.stopPropagation(); trackOutboundLink('${homePage}', true); return false;"`
-                + `>${name}</a>&nbsp;`;
+                + `>${displayName}</a>&nbsp;`;
             if (note.hasOwnProperty(name)) {
                 const url = CSRankings.noteMap[note[name]];
                 const href = `<a href="${url}" onclick="event.stopPropagation();">`;
@@ -900,6 +1044,8 @@ var CSRankings;
                 + '</a>';
             p += `<span onclick='event.stopPropagation(); csr.toggleChart("${escape(name)}"); ga("send", "event", "chart", "toggle", "toggle ${escape(name)} ${document.getElementById("charttype").value} chart");' title="Click for author's publication profile." class="hovertip" id="${escape(name) + '-chartwidget'}">`;
             p += ChartIcon + "</span>"
+                + `&nbsp;<span onclick='event.stopPropagation(); csr.togglePublications("${escape(name)}");' title="Click to list publications." class="hovertip">`
+                + CSRankings.PublicationsIcon + "</span>"
                 + '</small>'
                 + '</td><td align="right"><small>'
                 + `<a title="Click for author's DBLP entry." target="_blank" href="${dblpName}" `
@@ -908,9 +1054,12 @@ var CSRankings;
                 + '<td align="right"><small>'
                 + (Math.round(10.0 * facultyAdjustedCount[name]) / 10.0).toFixed(1)
                 + "</small></td></tr>"
-                + "<tr><td colspan=\"4\">"
+                + "<tr class=\"chart-row\"><td colspan=\"4\">"
                 + `<div class="csr-chart" id="${escape(name)}-chart">`
                 + '</div>'
+                + "</td></tr>"
+                + "<tr class=\"pub-row\"><td colspan=\"4\">"
+                + `<div class="pub-panel" id="${escape(name)}-publications" style="display:none"></div>`
                 + "</td></tr>";
         }
         p += "</tbody></table></div>";
@@ -1355,7 +1504,6 @@ var CSRankings;
         'ubicomp': 'astar',
         'vr': 'astar',
         'ismar': 'astar',
-        'hri': 'astar',
         'uist': 'astar',
         // A
         'cscw': 'a',
@@ -1364,6 +1512,7 @@ var CSRankings;
         'iui': 'a',
         'iss': 'a',
         'assets': 'a',
+        'hri': 'a',
         // B
         'interact': 'b',
         'cc': 'b',
@@ -4266,6 +4415,98 @@ var CSRankings;
                 CSRankings.makeChart(name, this.usePieChart, this.authorAreas, this.areaDict);
                 chartwidget.innerHTML = this.OpenChartIcon;
             }
+        }
+        /* Show or hide a faculty member's publication list (fetched from DBLP).
+           Uses a two-step fetch: author search → numeric PID → person XML. */
+        togglePublications(name) {
+            const panel = document.getElementById(name + '-publications');
+            if (!panel) {
+                return;
+            }
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+                panel.innerHTML = '';
+                return;
+            }
+            panel.style.display = 'block';
+            panel.innerHTML = '<div class="pub-loading">Loading publications\u2026</div>';
+            const originalName = unescape(name);
+            // Render a publications table from a list of pub objects.
+            const renderTable = (pubs) => {
+                if (pubs.length === 0) {
+                    panel.innerHTML = '<div class="pub-empty">No tracked-venue publications found on DBLP.</div>';
+                    return;
+                }
+                const rankLabel = {
+                    'astar': 'A*', 'a': 'A', 'b': 'B', 'journal': 'Jnl',
+                };
+                let html = '<small><table class="pub-table">'
+                    + '<colgroup><col class="col-title"><col class="col-venue"><col class="col-year"><col class="col-rank"></colgroup>'
+                    + '<thead><tr><th>Title</th><th>Venue</th><th>Year</th><th>Rank</th></tr></thead><tbody>';
+                for (const pub of pubs) {
+                    const titleCell = pub.url
+                        ? `<a href="${pub.url}" target="_blank" onclick="event.stopPropagation();">${he.encode(pub.title)}</a>`
+                        : he.encode(pub.title);
+                    const rank = CSRankings.venueNameToRank[pub.venue] || '';
+                    const rankStr = rankLabel[rank] || '';
+                    const venueShort = CSRankings.venueDisplayName[pub.venue] || pub.venue;
+                    html += `<tr><td>${titleCell}</td><td>${he.encode(venueShort)}</td><td>${pub.year}</td><td><span class="rank-badge rank-${rank}">${rankStr}</span></td></tr>`;
+                }
+                html += '</tbody></table></small>';
+                panel.innerHTML = html;
+            };
+            // Parse person XML from DBLP and extract tracked-venue publications.
+            const parsePersonXML = (xml) => {
+                const doc = (new DOMParser()).parseFromString(xml, 'text/xml');
+                const pubs = [];
+                doc.querySelectorAll('r > *').forEach((el) => {
+                    var _a, _b, _c, _d, _e;
+                    // Filter by exact booktitle/journal name — mirrors what util/csrankings.py counts.
+                    const venueEl = el.querySelector('booktitle') || el.querySelector('journal');
+                    const venueName = (venueEl === null || venueEl === void 0 ? void 0 : venueEl.textContent) || '';
+                    if (!CSRankings.validDBLPVenueNames[venueName]) {
+                        return;
+                    }
+                    // <ee> holds the DOI URL; <doi> holds the bare DOI (often absent).
+                    const eeText = ((_a = el.querySelector('ee')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
+                    const doiText = ((_b = el.querySelector('doi')) === null || _b === void 0 ? void 0 : _b.textContent) || '';
+                    // Fall back to extracting DOI from the ee URL if <doi> is missing.
+                    const doi = doiText || (eeText.includes('doi.org/') ? eeText.replace(/^.*doi\.org\//, '') : '');
+                    pubs.push({
+                        title: ((_d = (_c = el.querySelector('title')) === null || _c === void 0 ? void 0 : _c.textContent) === null || _d === void 0 ? void 0 : _d.replace(/\.$/, '')) || '',
+                        venue: venueName,
+                        year: ((_e = el.querySelector('year')) === null || _e === void 0 ? void 0 : _e.textContent) || '',
+                        doi,
+                        url: eeText,
+                    });
+                });
+                pubs.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+                renderTable(pubs);
+            };
+            // Step 1: author search to resolve the numeric DBLP PID URL.
+            // Strip trailing disambiguation number (" 0001") for the search query.
+            const searchName = originalName.replace(/\s+\d{4}$/, '');
+            const authorApiUrl = `https://dblp.org/search/author/api?q=${encodeURIComponent(searchName)}&format=json&h=10`;
+            fetch(authorApiUrl)
+                .then(r => r.json())
+                .then((data) => {
+                var _a, _b, _c;
+                const rawHits = (_b = (_a = data === null || data === void 0 ? void 0 : data.result) === null || _a === void 0 ? void 0 : _a.hits) === null || _b === void 0 ? void 0 : _b.hit;
+                const hits = Array.isArray(rawHits) ? rawHits : (rawHits ? [rawHits] : []);
+                // Prefer an exact name match; fall back to first result.
+                const match = hits.find((h) => { var _a; return ((_a = h.info) === null || _a === void 0 ? void 0 : _a.author) === originalName; }) || hits[0];
+                if (!((_c = match === null || match === void 0 ? void 0 : match.info) === null || _c === void 0 ? void 0 : _c.url)) {
+                    panel.innerHTML = '<div class="pub-error">Author not found on DBLP.</div>';
+                    return;
+                }
+                // Step 2: fetch the person XML (numeric PID URL + ".xml").
+                return fetch(match.info.url + '.xml')
+                    .then(r => r.text())
+                    .then(parsePersonXML);
+            })
+                .catch(() => {
+                panel.innerHTML = '<div class="pub-error">Failed to load publications from DBLP.</div>';
+            });
         }
         /* Expand or collape the view of conferences in a given area. */
         toggleConferences(area) {
