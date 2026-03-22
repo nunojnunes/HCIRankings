@@ -591,7 +591,9 @@ namespace CSRankings {
             const parsePersonXML = (xml: string) => {
                 const doc = (new DOMParser()).parseFromString(xml, 'text/xml');
                 const pubs: Array<{title: string; venue: string; year: string; doi: string; url: string}> = [];
-                doc.querySelectorAll('r > *').forEach((el: Element) => {
+                // Only authored papers: inproceedings (conference) and article (journal).
+                // Excludes proceedings volumes, books, theses etc. that DBLP lists for editors.
+                doc.querySelectorAll('r > inproceedings, r > article').forEach((el: Element) => {
                     // Filter by exact booktitle/journal name — mirrors what util/csrankings.py counts.
                     const venueEl = el.querySelector('booktitle') || el.querySelector('journal');
                     const venueName = venueEl?.textContent || '';

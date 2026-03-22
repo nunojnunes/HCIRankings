@@ -4459,7 +4459,9 @@ var CSRankings;
             const parsePersonXML = (xml) => {
                 const doc = (new DOMParser()).parseFromString(xml, 'text/xml');
                 const pubs = [];
-                doc.querySelectorAll('r > *').forEach((el) => {
+                // Only authored papers: inproceedings (conference) and article (journal).
+                // Excludes proceedings volumes, books, theses etc. that DBLP lists for editors.
+                doc.querySelectorAll('r > inproceedings, r > article').forEach((el) => {
                     var _a, _b, _c, _d, _e;
                     // Filter by exact booktitle/journal name — mirrors what util/csrankings.py counts.
                     const venueEl = el.querySelector('booktitle') || el.querySelector('journal');
