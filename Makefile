@@ -54,7 +54,7 @@ download-dblp:
 
 shrink-dblp:
 	@echo "Shrinking the DBLP file (streaming, low memory)."
-	gunzip -dc dblp-original.xml.gz | $(PYTHON) util/filter-dblp.py | xz -9 > dblp.xml.xz
+	gunzip -dc dblp-original.xml.gz | $(PYTHON) util/filter-dblp.py | xz -3 > dblp.xml.xz
 	@echo "Filtered DBLP saved to dblp.xml.xz"
 
 faculty-affiliations.csv homepages.csv scholar.csv csrankings.csv: csrankings-*.csv
@@ -148,7 +148,7 @@ download-prev-dblp:
 	RELEASE_DATE="$$YEAR-$$MONTH_NUM-01"; \
 	echo "Last update was: $$MONTH_YEAR -> downloading dblp-$$RELEASE_DATE.xml.gz"; \
 	curl -f -o dblp-original.xml.gz "https://drops.dagstuhl.de/storage/artifacts/dblp/xml/$$YEAR/dblp-$$RELEASE_DATE.xml.gz" || \
-		(echo "Error: Failed to download DBLP release for $$RELEASE_DATE" && exit 1)
+		echo "Warning: Could not download previous DBLP release for $$RELEASE_DATE. Name change detection will be skipped."
 
 # Detect DBLP author name changes (dry-run preview)
 # Requires: prev-dblp.xml.gz (previous DBLP dump) and dblp-original.xml.gz (current)
