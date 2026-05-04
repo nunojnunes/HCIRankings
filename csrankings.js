@@ -88,7 +88,9 @@ var CSRankings;
         'SP': 'https://www.cis.mpg.de/mpi-for-security-and-privacy/',
         'SWS': 'https://www.cis.mpg.de/mpi-sws/',
         'ITI': 'https://iti.larsys.pt',
-        'ISR': 'https://www.isr.ist.utl.pt/'
+        'ISR': 'https://www.isr.ist.utl.pt/',
+        'INESC': 'https://www.inesc-id.pt/',
+        'LASIGE': 'https://lasige.di.fc.ul.pt/'
     };
     /* Area definitions with titles */
     CSRankings.areaMap = [
@@ -1017,8 +1019,10 @@ var CSRankings;
                 + `>${displayName}</a>&nbsp;`;
             if (note.hasOwnProperty(name)) {
                 const url = CSRankings.noteMap[note[name]];
-                const href = `<a href="${url}" onclick="event.stopPropagation();">`;
-                p += `<span class="note" title="Note">[${href + note[name]}</a>]</span>&nbsp;`;
+                const inner = url
+                    ? `<a href="${url}" onclick="event.stopPropagation();">${note[name]}</a>`
+                    : note[name];
+                p += `<span class="note" title="Note">[${inner}]</span>&nbsp;`;
             }
             if (acmfellow.hasOwnProperty(name)) {
                 p += `<span title="ACM Fellow (${acmfellow[name]})"><img alt="ACM Fellow" src="${CSRankings.acmfellowImage}"></span>&nbsp;`;

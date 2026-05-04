@@ -75,7 +75,9 @@ namespace CSRankings {
         'SP': 'https://www.cis.mpg.de/mpi-for-security-and-privacy/',
         'SWS': 'https://www.cis.mpg.de/mpi-sws/',
         'ITI': 'https://iti.larsys.pt',
-        'ISR': 'https://www.isr.ist.utl.pt/'
+        'ISR': 'https://www.isr.ist.utl.pt/',
+        'INESC': 'https://www.inesc-id.pt/',
+        'LASIGE': 'https://lasige.di.fc.ul.pt/'
     };
 
     /* Area definitions with titles */

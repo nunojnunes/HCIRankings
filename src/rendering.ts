@@ -61,8 +61,10 @@ namespace CSRankings {
                 + `>${displayName}</a>&nbsp;`;
             if (note.hasOwnProperty(name)) {
                 const url = noteMap[note[name]];
-                const href = `<a href="${url}" onclick="event.stopPropagation();">`;
-                p += `<span class="note" title="Note">[${href + note[name]}</a>]</span>&nbsp;`;
+                const inner = url
+                    ? `<a href="${url}" onclick="event.stopPropagation();">${note[name]}</a>`
+                    : note[name];
+                p += `<span class="note" title="Note">[${inner}]</span>&nbsp;`;
             }
             if (acmfellow.hasOwnProperty(name)) {
                 p += `<span title="ACM Fellow (${acmfellow[name]})"><img alt="ACM Fellow" src="${acmfellowImage}"></span>&nbsp;`;
