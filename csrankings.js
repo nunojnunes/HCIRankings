@@ -43,6 +43,9 @@ var CSRankings;
         'vr': 'immersive_vis',
         'vis': 'immersive_vis',
         'ismar': 'immersive_vis',
+        'mm': 'immersive_vis',
+        'siggraph': 'immersive_vis',
+        'icmi': 'immersive_vis',
         // Intelligent & Adaptive Systems
         'iui': 'intelligent',
         'hri': 'intelligent',
@@ -54,7 +57,6 @@ var CSRankings;
         'tei': 'technology',
         'iss': 'technology',
         'sui': 'technology',
-        'icmi': 'technology',
         // Accessibility and Social Impact
         'assets': 'accessibility',
         'idc': 'accessibility',
@@ -111,12 +113,16 @@ var CSRankings;
         { area: "immersive_vis", title: "Immersive & Vis." },
         { area: "vr", title: "Immersive & Vis." },
         { area: "ismar", title: "Immersive & Vis." },
+        { area: "mm", title: "Immersive & Vis." },
+        { area: "siggraph", title: "Immersive & Vis." },
         { area: "vis", title: "Immersive & Vis." },
         { area: "vrst", title: "Immersive & Vis." },
+        { area: "icmi", title: "Immersive & Vis." },
         // Intelligent & Adaptive Systems
         { area: "intelligent", title: "Intelligent & Adaptive" },
         { area: "hri", title: "Intelligent & Adaptive" },
         { area: "iui", title: "Intelligent & Adaptive" },
+        { area: "recsys", title: "Intelligent & Adaptive" },
         // Technology and Engineering
         { area: "technology", title: "Technology & Eng." },
         { area: "uist", title: "Technology & Eng." },
@@ -207,6 +213,14 @@ var CSRankings;
         'INTERACT (3)': true, 'INTERACT (4)': true, 'INTERACT (5)': true,
         // ismar
         'ISMAR': true,
+        // mm
+        'MM': true,
+        // siggraph
+        'SIGGRAPH': true, 'ACM Trans. Graph.': true, 'SIGGRAPH (Conference Paper Track)': true,
+        // icmi
+        'ICMI': true,
+        // recsys
+        'RecSys': true,
         // idc
         'IDC': true,
         // journals
@@ -230,6 +244,9 @@ var CSRankings;
         'Symposium on Designing Interactive Systems': 'DIS',
         // iss
         'ITS': 'ISS',
+        // siggraph
+        'ACM Trans. Graph.': 'SIGGRAPH',
+        'SIGGRAPH (Conference Paper Track)': 'SIGGRAPH',
         // cc
         'Creativity & Cognition': 'C&C',
         // interact
@@ -253,12 +270,15 @@ var CSRankings;
         'IEEE Visualization': 'astar', 'IEEE Trans. Vis. Comput. Graph.': 'astar',
         'VR': 'astar',
         'ISMAR': 'astar',
+        'MM': 'astar',
+        'SIGGRAPH': 'astar', 'ACM Trans. Graph.': 'astar', 'SIGGRAPH (Conference Paper Track)': 'astar',
         // A venues
         'CSCW': 'a', 'Proc. ACM Hum. Comput. Interact.': 'a',
         'ASSETS': 'a',
         'DIS': 'a', 'Conference on Designing Interactive Systems': 'a',
         'Symposium on Designing Interactive Systems': 'a',
         'IUI': 'a',
+        'RecSys': 'a',
         'ISS': 'a', 'ITS': 'a',
         'HRI': 'a',
         // B venues
@@ -271,6 +291,7 @@ var CSRankings;
         'TEI': 'b',
         'IDC': 'b',
         'CHI PLAY': 'b',
+        'ICMI': 'b',
         // Journals
         'ACM Trans. Comput. Hum. Interact.': 'journal',
         'Int. J. Hum. Comput. Stud.': 'journal',
@@ -295,6 +316,10 @@ var CSRankings;
         'cc': ['conf/cc/'],
         'mobilehci': ['conf/mhci/'],
         'vrst': ['conf/vrst/'],
+        'mm': ['conf/mm/'],
+        'siggraph': ['conf/siggraph/', 'journals/tog/'],
+        'icmi': ['conf/icmi/'],
+        'recsys': ['conf/recsys/'],
         'eics': ['conf/eics/'],
         'tei': ['conf/tei/'],
         'idc': ['conf/idc/'],
