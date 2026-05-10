@@ -1533,6 +1533,8 @@ var CSRankings;
         'ubicomp': 'astar',
         'vr': 'astar',
         'ismar': 'astar',
+        'mm': 'astar',
+        'siggraph': 'astar',
         'uist': 'astar',
         // A
         'cscw': 'a',
@@ -1542,11 +1544,13 @@ var CSRankings;
         'iss': 'a',
         'assets': 'a',
         'hri': 'a',
+        'recsys': 'a',
         // B
         'interact': 'b',
         'cc': 'b',
         'mobilehci': 'b',
         'vrst': 'b',
+        'icmi': 'b',
         'eics': 'b',
         'tei': 'b',
         'idc': 'b',
