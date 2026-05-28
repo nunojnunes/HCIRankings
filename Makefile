@@ -7,7 +7,7 @@
 
 TARGETS = csrankings.js csrankings.min.js submit/submit.js generated-author-info.csv
 
-.PHONY: home-pages scholar-links fix-affiliations update-dblp clean-dblp download-dblp shrink-dblp clean-csrankings update-author-names update-dblp-full apply-author-names backup-dblp update-dblp-date download-prev-dblp
+.PHONY: home-pages scholar-links fix-affiliations update-dblp clean-dblp download-dblp shrink-dblp clean-csrankings update-author-names update-dblp-full update-dblp-ci apply-author-names backup-dblp update-dblp-date download-prev-dblp
 
 PYTHON = python3
 PYPY   = python3
@@ -183,6 +183,30 @@ apply-author-names:
 
 # Fully automated DBLP update: backup, download, shrink, detect & apply name changes, regenerate data
 # This is the one-command solution for updating DBLP
+# CI-optimised update: skips prev-DBLP download and name-change detection,
+# which together push the job past the 90-minute step timeout.
+# Run update-dblp-full locally when you also want name-change detection.
+update-dblp-ci:
+	@echo "=== CI DBLP UPDATE ==="
+	@echo ""
+	@echo "Step 1/5: Downloading new DBLP from $(DBLP)..."
+	$(MAKE) download-dblp
+	@echo ""
+	@echo "Step 2/5: Filtering DBLP to tracked venues..."
+	$(MAKE) shrink-dblp
+	@echo ""
+	@echo "Step 3/5: Generating DBLP aliases..."
+	$(MAKE) faculty-affiliations.csv
+	$(PYTHON) util/generate-aliases.py > dblp-aliases.csv
+	@echo ""
+	@echo "Step 4/5: Regenerating publication data..."
+	$(MAKE) generated-author-info.csv
+	@echo ""
+	@echo "Step 5/5: Updating DBLP date in index.html..."
+	$(MAKE) update-dblp-date
+	@echo ""
+	@echo "=== CI DBLP UPDATE COMPLETE ==="
+
 update-dblp-full:
 	@echo "=== FULLY AUTOMATED DBLP UPDATE ==="
 	@echo ""

@@ -41,7 +41,7 @@ jobs:
       - name: Run DBLP update
         timeout-minutes: 90
         run: |
-          make update-dblp-full
+          make update-dblp-ci
 
       - name: Commit and push changes
         run: |
