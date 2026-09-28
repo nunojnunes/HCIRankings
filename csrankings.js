@@ -33,11 +33,9 @@ var CSRankings;
         // Design and Critical Computing
         'dis': 'design_critical',
         'cc': 'design_critical',
-        'compass': 'design_critical',
         // Ubiquitous and Mobile
         'ubicomp': 'ubi_mobile',
         'mobilehci': 'ubi_mobile',
-        'etra': 'ubi_mobile',
         // Immersive and Visualization
         'vrst': 'immersive_vis',
         'vr': 'immersive_vis',
@@ -50,13 +48,11 @@ var CSRankings;
         'iui': 'intelligent',
         'hri': 'intelligent',
         'recsys': 'intelligent',
-        'umap': 'intelligent',
         // Technology and Engineering
         'uist': 'technology',
         'eics': 'technology',
         'tei': 'technology',
         'iss': 'technology',
-        'sui': 'technology',
         // Accessibility and Social Impact
         'assets': 'accessibility',
         'idc': 'accessibility',
@@ -1830,6 +1826,13 @@ var CSRankings;
                             }
                         });
                     }
+                }
+            }
+            // Show every rank tier as selected in the rank filter.
+            for (const id of ['filter-astar', 'filter-a', 'filter-b', 'filter-journals']) {
+                const filterElement = document.getElementById(id);
+                if (filterElement) {
+                    filterElement.checked = true;
                 }
             }
             // And we're out.
@@ -4218,7 +4221,9 @@ var CSRankings;
                 // Clear the hash BEFORE creating Navigo so it never sees the old saved URL.
                 // Navigo captures window.location.hash at construction time, so creating it
                 // here (after replaceState) ensures it starts with an empty route → A* default.
-                window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                // Also drop any query string (e.g. ?fbclid=… added by social media): Navigo
+                // folds it into the route's query, which then no longer parses.
+                window.history.replaceState(null, '', window.location.pathname);
                 this.navigoRouter = new Navigo(null, true);
                 // Populate year selects before URL resolution so options exist when params are parsed
                 CSRankings.populateYearSelects();

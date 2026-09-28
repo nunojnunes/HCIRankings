@@ -228,7 +228,9 @@ namespace CSRankings {
                 // Clear the hash BEFORE creating Navigo so it never sees the old saved URL.
                 // Navigo captures window.location.hash at construction time, so creating it
                 // here (after replaceState) ensures it starts with an empty route → A* default.
-                window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                // Also drop any query string (e.g. ?fbclid=… added by social media): Navigo
+                // folds it into the route's query, which then no longer parses.
+                window.history.replaceState(null, '', window.location.pathname);
                 this.navigoRouter = new Navigo(null, true);
                 // Populate year selects before URL resolution so options exist when params are parsed
                 populateYearSelects();

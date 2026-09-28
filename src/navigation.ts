@@ -205,6 +205,13 @@ namespace CSRankings {
                     }
                 }
             }
+            // Show every rank tier as selected in the rank filter.
+            for (const id of ['filter-astar', 'filter-a', 'filter-b', 'filter-journals']) {
+                const filterElement = document.getElementById(id) as HTMLInputElement;
+                if (filterElement) {
+                    filterElement.checked = true;
+                }
+            }
             // And we're out.
             invalidateCheckboxCache();
             return;

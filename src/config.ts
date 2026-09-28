@@ -15,11 +15,9 @@ namespace CSRankings {
         // Design and Critical Computing
         'dis': 'design_critical',
         'cc': 'design_critical',
-        'compass': 'design_critical',
         // Ubiquitous and Mobile
         'ubicomp': 'ubi_mobile',
         'mobilehci': 'ubi_mobile',
-        'etra': 'ubi_mobile',
         // Immersive and Visualization
         'vrst': 'immersive_vis',
         'vr': 'immersive_vis',
@@ -32,13 +30,11 @@ namespace CSRankings {
         'iui': 'intelligent',
         'hri': 'intelligent',
         'recsys': 'intelligent',
-        'umap': 'intelligent',
         // Technology and Engineering
         'uist': 'technology',
         'eics': 'technology',
         'tei': 'technology',
         'iss': 'technology',
-        'sui': 'technology',
         // Accessibility and Social Impact
         'assets': 'accessibility',
         'idc': 'accessibility',
