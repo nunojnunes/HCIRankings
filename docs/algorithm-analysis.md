@@ -19,27 +19,28 @@ Each publication gives each author `1/N` credit, where N = total number of autho
 authorscoresAdjusted[(realName, areaname, year)] += 1.0 / authorsOnPaper
 ```
 
-### 2. Geometric Mean Aggregation
+### 2. Sum Aggregation
 
-Department scores are computed as a **smoothed geometric mean** across selected areas:
+All HCI venues are treated as a single area, matching CSRankings' `chi` area. Department scores are the **smoothed sum** of adjusted counts across selected venues:
 
 ```
-score = ((count_area1 + 1) × (count_area2 + 1) × ...) ^ (1/numAreas)
+score = count_area1 + count_area2 + ... + 1
 ```
+
+This equals CSRankings' smoothed geometric mean with one area, so scores match csrankings.org for the same venues.
 
 **Implementation:** `src/computation.ts`:
 ```typescript
 for (const area in topLevelAreas) {
     if (weights[area] != 0) {
-        stats[dept] *= (areaDeptAdjustedCount[areaDept] + 1.0);
+        stats[dept] += areaDeptAdjustedCount[areaDept];
     }
 }
-stats[dept] = Math.pow(stats[dept], 1 / numAreas);
 ```
 
 ### 3. Laplace Smoothing (+1)
 
-The `+1` prevents departments with zero papers in an area from getting a zero total score.
+The `+1` keeps scores on the same scale as csrankings.org, which adds 1 per area before taking its geometric mean.
 
 ---
 
@@ -48,8 +49,8 @@ The `+1` prevents departments with zero papers in an area from getting a zero to
 | Aspect | Benefit |
 |--------|---------|
 | **Fractional counting** | Prevents gaming by adding authors; fair credit distribution |
-| **Geometric mean** | Rewards breadth across areas; prevents single-area dominance |
-| **Smoothing** | No division by zero; departments aren't eliminated for missing one area |
+| **Single HCI area** | Matches csrankings.org's `chi` area; venues are summed, not averaged |
+| **Smoothing (+1)** | Scores line up exactly with csrankings.org |
 | **Simplicity** | Easy to explain; users can verify manually |
 | **Deterministic** | Same data always produces same results |
 

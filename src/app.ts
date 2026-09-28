@@ -221,6 +221,10 @@ namespace CSRankings {
                 ]);
                 console.log(`All CSV files loaded in ${(performance.now() - loadStart).toFixed(1)}ms`);
                 this.setAllOn();
+                // Remember a shared link (e.g. #/index?none&europe) so it can be applied on
+                // top of the A* default once the page is initialised.
+                const initialRoute = window.location.hash.match(
+                    /^#\/(?:fromyear\/(\d+)\/toyear\/(\d+)\/)?index\?(.+)$/);
                 // Clear the hash BEFORE creating Navigo so it never sees the old saved URL.
                 // Navigo captures window.location.hash at construction time, so creating it
                 // here (after replaceState) ensures it starts with an empty route → A* default.
@@ -241,7 +245,10 @@ namespace CSRankings {
                 initChartDropdown();
                 this.recomputeAuthorAreas();
                 this.addListeners();
-                geoCheck(() => this.rank());
+                // Only guess the region from location when the link doesn't specify a view.
+                if (!initialRoute) {
+                    geoCheck(() => this.rank());
+                }
                 // Initialize area dropdowns
                 initAreaDropdowns();
                 // Resolve routing LAST. If Navigo finds a matching route it calls navigation().
@@ -256,6 +263,16 @@ namespace CSRankings {
                 if (!this.initialLoadDone) {
                     this.initialLoadDone = true;
                     applyDefaultRankFilter(() => this.invalidateCheckboxCache());
+                    // Then apply the shared link's areas, region, years and chart type.
+                    if (initialRoute) {
+                        const [, fromyear, toyear, query] = initialRoute;
+                        const params = fromyear ? { fromyear, toyear } : null;
+                        handleNavigation(params, query, () => this.invalidateCheckboxCache());
+                        if (params) {
+                            this.invalidateIncrementalCache();
+                            this.recomputeAuthorAreas();
+                        }
+                    }
                     this.rank();
                 }
             })();

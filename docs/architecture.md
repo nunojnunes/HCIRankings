@@ -10,7 +10,7 @@ This document covers the detailed architecture, data flow, and performance chara
 4. `updateWeights()` reads checkbox cache
 5. `buildIncrementalCache()` - only rebuilds if year/region changed
 6. `buildDepartmentsIncremental()` - uses cached per-area data (fast!)
-7. `computeStats()` calculates geometric means
+7. `computeStats()` sums adjusted counts across selected venues (+1)
 8. If `VERIFY_INCREMENTAL` is true, runs full computation to verify
 9. `buildDropDown()` generates faculty HTML
 10. `buildOutputString()` generates ranking table
@@ -90,7 +90,7 @@ private incrementalCache: {
 
 - `this.authors` - Array of ~50k author publication records
 - `this.authorAreas` - Map of author/dept -> area -> publication count
-- `this.stats` - Computed geometric mean scores per department
+- `this.stats` - Computed scores (summed adjusted counts + 1) per department
 - `this.areaDeptAdjustedCount` - Area+dept adjusted publication counts
 
 ## Debugging Performance

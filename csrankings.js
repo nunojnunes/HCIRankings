@@ -842,12 +842,15 @@ var CSRankings;
     }
     CSRankings.buildDepartments = buildDepartments;
     /* Compute aggregate statistics. */
-    function computeStats(deptNames, numAreas, weights, areaDeptAdjustedCount) {
+    function computeStats(deptNames, _numAreas, weights, areaDeptAdjustedCount) {
         const stats = {};
         for (const dept in deptNames) {
             if (!deptNames.hasOwnProperty(dept)) {
                 continue;
             }
+            // All HCI venues form a single area, as in CSRankings' "chi" area:
+            // score = (sum of adjusted counts across selected venues) + 1.
+            // This equals CSRankings' smoothed geometric mean with one area.
             stats[dept] = 1;
             for (const area in CSRankings.topLevelAreas) {
                 const areaDept = area + dept;
@@ -855,12 +858,9 @@ var CSRankings;
                     areaDeptAdjustedCount[areaDept] = 0;
                 }
                 if (weights[area] != 0) {
-                    // Adjusted (smoothed) geometric mean.
-                    stats[dept] *= (areaDeptAdjustedCount[areaDept] + 1.0);
+                    stats[dept] += areaDeptAdjustedCount[areaDept];
                 }
             }
-            // finally compute geometric mean.
-            stats[dept] = Math.pow(stats[dept], 1 / numAreas); // - 1.0;
         }
         return stats;
     }
@@ -4212,6 +4212,9 @@ var CSRankings;
                 ]);
                 console.log(`All CSV files loaded in ${(performance.now() - loadStart).toFixed(1)}ms`);
                 this.setAllOn();
+                // Remember a shared link (e.g. #/index?none&europe) so it can be applied on
+                // top of the A* default once the page is initialised.
+                const initialRoute = window.location.hash.match(/^#\/(?:fromyear\/(\d+)\/toyear\/(\d+)\/)?index\?(.+)$/);
                 // Clear the hash BEFORE creating Navigo so it never sees the old saved URL.
                 // Navigo captures window.location.hash at construction time, so creating it
                 // here (after replaceState) ensures it starts with an empty route → A* default.
@@ -4232,7 +4235,10 @@ var CSRankings;
                 CSRankings.initChartDropdown();
                 this.recomputeAuthorAreas();
                 this.addListeners();
-                CSRankings.geoCheck(() => this.rank());
+                // Only guess the region from location when the link doesn't specify a view.
+                if (!initialRoute) {
+                    CSRankings.geoCheck(() => this.rank());
+                }
                 // Initialize area dropdowns
                 CSRankings.initAreaDropdowns();
                 // Resolve routing LAST. If Navigo finds a matching route it calls navigation().
@@ -4247,6 +4253,16 @@ var CSRankings;
                 if (!this.initialLoadDone) {
                     this.initialLoadDone = true;
                     CSRankings.applyDefaultRankFilter(() => this.invalidateCheckboxCache());
+                    // Then apply the shared link's areas, region, years and chart type.
+                    if (initialRoute) {
+                        const [, fromyear, toyear, query] = initialRoute;
+                        const params = fromyear ? { fromyear, toyear } : null;
+                        CSRankings.handleNavigation(params, query, () => this.invalidateCheckboxCache());
+                        if (params) {
+                            this.invalidateIncrementalCache();
+                            this.recomputeAuthorAreas();
+                        }
+                    }
                     this.rank();
                 }
             }))();

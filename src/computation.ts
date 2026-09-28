@@ -267,7 +267,7 @@ namespace CSRankings {
     /* Compute aggregate statistics. */
     export function computeStats(
         deptNames: { [key: string]: Array<string> },
-        numAreas: number,
+        _numAreas: number,
         weights: { [key: string]: number },
         areaDeptAdjustedCount: { [key: string]: number }
     ): { [key: string]: number } {
@@ -276,6 +276,9 @@ namespace CSRankings {
             if (!deptNames.hasOwnProperty(dept)) {
                 continue;
             }
+            // All HCI venues form a single area, as in CSRankings' "chi" area:
+            // score = (sum of adjusted counts across selected venues) + 1.
+            // This equals CSRankings' smoothed geometric mean with one area.
             stats[dept] = 1;
             for (const area in topLevelAreas) {
                 const areaDept = area + dept;
@@ -283,12 +286,9 @@ namespace CSRankings {
                     areaDeptAdjustedCount[areaDept] = 0;
                 }
                 if (weights[area] != 0) {
-                    // Adjusted (smoothed) geometric mean.
-                    stats[dept] *= (areaDeptAdjustedCount[areaDept] + 1.0);
+                    stats[dept] += areaDeptAdjustedCount[areaDept];
                 }
             }
-            // finally compute geometric mean.
-            stats[dept] = Math.pow(stats[dept], 1 / numAreas); // - 1.0;
         }
         return stats;
     }
